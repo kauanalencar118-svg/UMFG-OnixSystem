@@ -18,8 +18,12 @@ namespace OnixSystem_MVC
             );
             builder.Services.AddScoped<IRepositorioProduto, RepositorioProduto>();
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
-
+            builder.Services
+                .AddControllersWithViews()
+                .AddRazorOptions(options =>
+                {
+                    options.ViewLocationFormats.Add("/Views/Pages/{1}/{0}.cshtml");
+                });
             var app = builder.Build();
 
 
@@ -39,7 +43,7 @@ namespace OnixSystem_MVC
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Produto}/{action=Index}/{id?}")
+                pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

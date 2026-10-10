@@ -54,6 +54,7 @@ namespace OnixSystem_MVC.Controllers.Produtos
             var produto = await _repositoryProduto.PegarProdutoPorId(id);
             return View(produto);
         }
+       
         public async Task<IActionResult> DeleteSoftPost(Produto produto)
         {
 

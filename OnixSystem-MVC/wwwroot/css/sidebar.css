@@ -1,0 +1,13 @@
+.sidebar {
+    position: absolute;
+    background: black;
+    height: 100%;
+    padding: 2em;
+    min-width: 60px;
+    z-index: 100;
+    transition: 0.3s all ease;
+}
+
+    .sidebar:hover {
+        min-width: 300px;
+    }

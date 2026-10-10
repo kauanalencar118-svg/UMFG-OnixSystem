@@ -1,7 +1,32 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\kauan\\source\\repos\\OnixSystem\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\willianrafael\\desktop\\umfg-onixsystem\\onixsystem-mvc\\views\\partials\\layouts\\sidebar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\views\\partials\\layouts\\sidebar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\willianrafael\\desktop\\umfg-onixsystem\\onixsystem-mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\willianrafael\\desktop\\umfg-onixsystem\\onixsystem-mvc\\views\\partials\\layouts\\sidebar.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\views\\partials\\layouts\\sidebar.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\willianrafael\\desktop\\umfg-onixsystem\\onixsystem-mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\willianrafael\\desktop\\umfg-onixsystem\\onixsystem-mvc\\controllers\\produtos\\produtocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\controllers\\produtos\\produtocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\willianrafael\\desktop\\umfg-onixsystem\\onixsystem-mvc\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,15 +34,89 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Sidebar.cshtml",
+              "DocumentMoniker": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Partials\\Layouts\\Sidebar.cshtml",
+              "RelativeDocumentMoniker": "OnixSystem-MVC\\Views\\Partials\\Layouts\\Sidebar.cshtml",
+              "ToolTip": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Partials\\Layouts\\Sidebar.cshtml",
+              "RelativeToolTip": "OnixSystem-MVC\\Views\\Partials\\Layouts\\Sidebar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-10T18:36:27.737Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "OnixSystem-MVC\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "OnixSystem-MVC\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-10T18:19:29.381Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "OnixSystem-MVC\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "OnixSystem-MVC\\wwwroot\\css\\site.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-10T18:28:07.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Sidebar.cshtml.css",
+              "DocumentMoniker": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Partials\\Layouts\\Sidebar.cshtml.css",
+              "RelativeDocumentMoniker": "OnixSystem-MVC\\Views\\Partials\\Layouts\\Sidebar.cshtml.css",
+              "ToolTip": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Partials\\Layouts\\Sidebar.cshtml.css",
+              "RelativeToolTip": "OnixSystem-MVC\\Views\\Partials\\Layouts\\Sidebar.cshtml.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-10T18:36:11.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProdutoController.cs",
+              "DocumentMoniker": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Controllers\\Produtos\\ProdutoController.cs",
+              "RelativeDocumentMoniker": "OnixSystem-MVC\\Controllers\\Produtos\\ProdutoController.cs",
+              "ToolTip": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Controllers\\Produtos\\ProdutoController.cs",
+              "RelativeToolTip": "OnixSystem-MVC\\Controllers\\Produtos\\ProdutoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T18:21:58.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Program.cs",
+              "RelativeDocumentMoniker": "OnixSystem-MVC\\Program.cs",
+              "ToolTip": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Program.cs",
+              "RelativeToolTip": "OnixSystem-MVC\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T18:21:11.023Z",
+              "EditorCaption": ""
             }
           ]
         }

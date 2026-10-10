@@ -1,5 +1,7 @@
 html {
   font-size: 14px;
+  height: 100%;
+  transition: 0.3s all;
 }
 
 @media (min-width: 768px) {
@@ -14,11 +16,10 @@ html {
 
 html {
   position: relative;
-  min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    height: 100%;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -29,3 +30,4 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+

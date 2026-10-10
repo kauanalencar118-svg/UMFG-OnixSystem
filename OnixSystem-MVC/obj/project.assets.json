@@ -2625,23 +2625,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kauan\\.nuget\\packages\\": {},
+    "C:\\Users\\WillianRafael\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kauan\\source\\repos\\OnixSystem\\OnixSystem-MVC\\OnixSystem-MVC.csproj",
+      "projectUniqueName": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\OnixSystem-MVC.csproj",
       "projectName": "OnixSystem-MVC",
-      "projectPath": "C:\\Users\\kauan\\source\\repos\\OnixSystem\\OnixSystem-MVC\\OnixSystem-MVC.csproj",
-      "packagesPath": "C:\\Users\\kauan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kauan\\source\\repos\\OnixSystem\\OnixSystem-MVC\\obj\\",
+      "projectPath": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\OnixSystem-MVC.csproj",
+      "packagesPath": "C:\\Users\\WillianRafael\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\kauan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\WillianRafael\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
