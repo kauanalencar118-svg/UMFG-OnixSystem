@@ -1,0 +1,68 @@
+﻿```cshtml
+@model OnixSystem_MVC.Models.Entidades.Produto
+
+@{
+    ViewData["Title"] = "Desativar Produto";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Desativar Produto</h4>
+        </div>
+
+        <div class="card-body">
+
+            <p>
+                Tem certeza de que deseja desativar este produto?
+            </p>
+
+            <div class="alert alert-warning">
+                O produto não será apagado do banco de dados.
+                Ele apenas ficará inativo.
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-4">Nome:</dt>
+                <dd class="col-sm-8">@Model.Nome</dd>
+
+                <dt class="col-sm-4">Descrição:</dt>
+                <dd class="col-sm-8">
+                    @(string.IsNullOrWhiteSpace(Model.Descricao)
+                        ? "Sem descrição"
+                        : Model.Descricao)
+                </dd>
+
+                <dt class="col-sm-4">Preço:</dt>
+                <dd class="col-sm-8">@Model.Preco</dd>
+
+                <dt class="col-sm-4">Código de barras:</dt>
+                <dd class="col-sm-8">@Model.CodigoBarras</dd>
+            </dl>
+
+            <form asp-controller="Produto"
+                  asp-action="DeleteSoftPost"
+                  method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        Confirmar desativação
+                    </button>
+
+                    <a asp-controller="Produto"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+                        Cancelar
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+```
