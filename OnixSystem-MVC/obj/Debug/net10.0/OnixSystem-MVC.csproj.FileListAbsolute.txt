@@ -406,7 +406,7 @@ C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\
 C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\OnixSystem-MVC.pdb
 C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\OnixSystem-MVC.genruntimeconfig.cache
 C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\ref\OnixSystem-MVC.dll
-C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\scopedcss\Views\Partials\Layouts\Sidebar.cshtml.rz.scp.css
-C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\compressed\01o754cdsv-{0}-lu8wyupt89-lu8wyupt89.gz
-C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\compressed\eiz4c3vj15-{0}-q0lt4tuace-q0lt4tuace.gz
-C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\compressed\1hh0ub1s4n-{0}-q0lt4tuace-q0lt4tuace.gz
+C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\compressed\fgvrk0paq1-{0}-n0fqsjw6fh-n0fqsjw6fh.gz
+C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\compressed\01o754cdsv-{0}-ole7ojs9p8-ole7ojs9p8.gz
+C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\compressed\eiz4c3vj15-{0}-h6rg5nc01h-h6rg5nc01h.gz
+C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\obj\Debug\net10.0\compressed\1hh0ub1s4n-{0}-h6rg5nc01h-h6rg5nc01h.gz
