@@ -20,57 +20,53 @@ build_property.TargetFrameworkVersion = v10.0
 build_property.EntryPointFilePath = 
 build_property.RootNamespace = OnixSystem_MVC
 build_property.RootNamespace = OnixSystem_MVC
-build_property.ProjectDir = C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC\
+build_property.ProjectDir = C:\Users\kauan\Downloads\UMFG-OnixSystem\OnixSystem-MVC\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 10.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\WillianRafael\Desktop\UMFG-OnixSystem\OnixSystem-MVC
+build_property.MSBuildProjectDirectory = C:\Users\kauan\Downloads\UMFG-OnixSystem\OnixSystem-MVC
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Home/Index.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Produto/Atualizar.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Produto/Atualizar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcUHJvZHV0b1xBdHVhbGl6YXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Produto/Criar.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Produto/Criar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcUHJvZHV0b1xDcmlhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Produto/DeleteSoft.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Produto/DeleteSoft.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcUHJvZHV0b1xEZWxldGVTb2Z0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Produto/Index.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/Pages/Produto/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcUHJvZHV0b1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Partials/Layouts/Sidebar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFydGlhbHNcTGF5b3V0c1xTaWRlYmFyLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Shared/Error.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/_ViewImports.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/_ViewStart.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WillianRafael/Desktop/UMFG-OnixSystem/OnixSystem-MVC/Views/Shared/_Layout.cshtml]
+[C:/Users/kauan/Downloads/UMFG-OnixSystem/OnixSystem-MVC/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-xz1r3pukhu

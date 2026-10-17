@@ -1,10 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\",
+  "WorkspaceRootPath": "C:\\Users\\kauan\\Downloads\\UMFG-OnixSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\willianrafael\\desktop\\umfg-onixsystem\\onixsystem-mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\kauan\\downloads\\umfg-onixsystem\\onixsystem-mvc\\views\\pages\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\views\\pages\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|c:\\users\\kauan\\downloads\\umfg-onixsystem\\onixsystem-mvc\\wwwroot\\css\\layout\\navbar.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A6839CC2-91D6-FDBB-7029-4F70E2544492}|OnixSystem-MVC\\OnixSystem-MVC.csproj|solutionrelative:onixsystem-mvc\\wwwroot\\css\\layout\\navbar.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,23 +18,40 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "navbar.css",
+              "DocumentMoniker": "C:\\Users\\kauan\\Downloads\\UMFG-OnixSystem\\OnixSystem-MVC\\wwwroot\\css\\layout\\navbar.css",
+              "RelativeDocumentMoniker": "OnixSystem-MVC\\wwwroot\\css\\layout\\navbar.css",
+              "ToolTip": "C:\\Users\\kauan\\Downloads\\UMFG-OnixSystem\\OnixSystem-MVC\\wwwroot\\css\\layout\\navbar.css",
+              "RelativeToolTip": "OnixSystem-MVC\\wwwroot\\css\\layout\\navbar.css",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-17T13:45:51.51Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "OnixSystem-MVC\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\WillianRafael\\Desktop\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "OnixSystem-MVC\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAADAAAAAAAAAA==",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\kauan\\Downloads\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Pages\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "OnixSystem-MVC\\Views\\Pages\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\kauan\\Downloads\\UMFG-OnixSystem\\OnixSystem-MVC\\Views\\Pages\\Home\\Index.cshtml",
+              "RelativeToolTip": "OnixSystem-MVC\\Views\\Pages\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-10-12T00:19:12.904Z",
+              "WhenOpened": "2026-10-17T13:27:51.932Z",
               "EditorCaption": ""
             }
           ]

@@ -1,0 +1,10 @@
+﻿.body-grid {
+    display: grid;
+    grid-template-columns: minmax(5vw, 20vw) 1fr;
+    height: 100%;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-rows: minmax(1vw, 5.5vw) 1fr;
+}
