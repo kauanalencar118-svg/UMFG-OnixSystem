@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OnixSystem-MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c769d71bd59a7210e275a0f7f6286ba35c8084b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f18076a3d45ccd2628af30af56d62cf343d1b5a9")]
 [assembly: System.Reflection.AssemblyProductAttribute("OnixSystem-MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OnixSystem-MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
