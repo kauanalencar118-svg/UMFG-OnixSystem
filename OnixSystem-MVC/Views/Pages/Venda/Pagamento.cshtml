@@ -1,0 +1,212 @@
+﻿
+@model OnixSystem_MVC.Models.ViewModels.PagamentoViewModel
+
+@{
+    ViewData["Title"] = "Pagamento";
+}
+
+<div class="container mt-4">
+    <h2>Finalizar Venda</h2>
+    <p class="text-muted">Confira os valores e informe o desconto, se houver.</p>
+
+    <form asp-controller="Venda" asp-action="ConfirmarVenda" method="post">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h5>Resumo da Venda</h5>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <span>Subtotal:</span>
+                    <strong id="subtotal">
+                        @Model.Subtotal.ToString("C2", new System.Globalization.CultureInfo("pt-BR"))
+                    </strong>
+                </div>
+
+                <hr />
+
+                <h5>Desconto</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">Tipo de desconto</label>
+                    <select id="tipoDesconto" name="TipoDesconto" class="form-select">
+                        <option value="Valor">Valor em R$</option>
+                        <option value="Porcentagem">Porcentagem (%)</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Desconto</label>
+                    <input type="number"
+                           id="valorDesconto"
+                           name="ValorDesconto"
+                           class="form-control"
+                           min="0"
+                           step="0.01"
+                           value="0"
+                           placeholder="Digite o desconto" />
+                </div>
+
+                <div id="resumoDesconto" style="display: none;">
+                    <div class="d-flex justify-content-between">
+                        <span>Valor descontado:</span>
+                        <strong id="descontoCalculado">R$ 0,00</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>Total com desconto:</span>
+                        <strong id="valorTotal" class="text-success fs-4">
+                            R$ 0,00
+                        </strong>
+                    </div>
+                </div>
+
+                <div id="totalOriginal" class="d-flex justify-content-between mt-3">
+                    <strong>Total:</strong>
+                    <strong class="text-success fs-4" id="valorOriginal">
+                        @Model.Subtotal.ToString("C2", new System.Globalization.CultureInfo("pt-BR"))
+                    </strong>
+                </div>
+
+                <hr />
+
+                <h5>Forma de Pagamento</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">Selecione a forma de pagamento</label>
+                    <select id="formaPagamento" name="FormaPagamento" class="form-select" required>
+                        <option value="">Selecione...</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Pix">Pix</option>
+                        <option value="CartaoCredito">Cartão de Crédito</option>
+                        <option value="CartaoDebito">Cartão de Débito</option>
+                    </select>
+                </div>
+
+                <div id="areaDinheiro" style="display: none;">
+                    <div class="mb-3">
+                        <label class="form-label">Valor recebido</label>
+                        <input type="number"
+                               id="valorRecebido"
+                               name="ValorRecebido"
+                               class="form-control"
+                               min="0"
+                               step="0.01"
+                               placeholder="Digite o valor recebido" />
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <span>Troco:</span>
+                        <strong id="valorTroco" class="text-success">R$ 0,00</strong>
+                    </div>
+                </div>
+
+                <hr />
+
+                <button type="submit" class="btn btn-success w-100">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Confirmar Venda
+                </button>
+
+                <a asp-controller="Venda" asp-action="Index"
+                   class="btn btn-outline-secondary w-100 mt-2">
+                    Voltar
+                </a>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    const subtotal = @Model.Subtotal.ToString(
+        System.Globalization.CultureInfo.InvariantCulture
+    );
+
+    const tipoDesconto = document.getElementById("tipoDesconto");
+    const valorDesconto = document.getElementById("valorDesconto");
+    const resumoDesconto = document.getElementById("resumoDesconto");
+    const totalOriginal = document.getElementById("totalOriginal");
+
+    const formaPagamento = document.getElementById("formaPagamento");
+    const areaDinheiro = document.getElementById("areaDinheiro");
+    const valorRecebido = document.getElementById("valorRecebido");
+    const valorTroco = document.getElementById("valorTroco");
+
+    function formatarMoeda(valor) {
+        return valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+    }
+
+    function obterDesconto() {
+        let valor = Number(valorDesconto.value) || 0;
+
+        valor = Math.max(valor, 0);
+
+        if (tipoDesconto.value === "Porcentagem") {
+            valor = Math.min(valor, 100);
+            return Math.round((subtotal * valor / 100) * 100) / 100;
+        }
+
+        valor = Math.min(valor, subtotal);
+        return Math.round(valor * 100) / 100;
+    }
+
+    function calcularDesconto() {
+        const desconto = obterDesconto();
+        const total = Math.round((subtotal - desconto) * 100) / 100;
+
+        if (desconto > 0) {
+            resumoDesconto.style.display = "block";
+            totalOriginal.classList.add("d-none");
+
+            document.getElementById("descontoCalculado").textContent =
+                formatarMoeda(desconto);
+
+            document.getElementById("valorTotal").textContent =
+                formatarMoeda(total);
+        } else {
+            resumoDesconto.style.display = "none";
+            totalOriginal.classList.remove("d-none");
+        }
+
+        calcularTroco();
+    }
+
+    function calcularTroco() {
+        const total = Math.round((subtotal - obterDesconto()) * 100) / 100;
+        const recebido = Number(valorRecebido.value) || 0;
+        const troco = Math.max(recebido - total, 0);
+
+        valorTroco.textContent = formatarMoeda(troco);
+    }
+
+    tipoDesconto.addEventListener("change", function () {
+        valorDesconto.value = "0";
+        calcularDesconto();
+    });
+
+    valorDesconto.addEventListener("input", calcularDesconto);
+
+    formaPagamento.addEventListener("change", function () {
+        areaDinheiro.style.display =
+            formaPagamento.value === "Dinheiro" ? "block" : "none";
+
+        valorRecebido.required =
+            formaPagamento.value === "Dinheiro";
+
+        calcularTroco();
+    });
+
+    valorRecebido.addEventListener("input", calcularTroco);
+
+    document.querySelector("form").addEventListener("submit", function () {
+        const desconto = obterDesconto();
+
+        // Envia o desconto como número decimal com ponto.
+        valorDesconto.value = desconto.toFixed(2);
+    });
+
+    calcularDesconto();
+</script>

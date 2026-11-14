@@ -13,10 +13,18 @@ namespace OnixSystem_MVC.Controllers.Produtos
             _repositoryProduto = repositoryProduto;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? pesquisa)
         {
-
             var produtos = await _repositoryProduto.ListarProdutos();
+
+            if (!string.IsNullOrWhiteSpace(pesquisa))
+            {
+                produtos = produtos.Where(p =>
+                    p.Nome.Contains(pesquisa, StringComparison.OrdinalIgnoreCase) ||
+                    p.CodigoBarras.Contains(pesquisa, StringComparison.OrdinalIgnoreCase));
+            }
+
+            ViewBag.Pesquisa = pesquisa;
 
             return View(produtos);
         }
@@ -27,6 +35,11 @@ namespace OnixSystem_MVC.Controllers.Produtos
         [HttpPost]
         public async Task<IActionResult> CriarPost(Produto produto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Criar", produto);
+            }
+
             await _repositoryProduto.CriarProduto(produto);
 
             return RedirectToAction("Index");
@@ -54,12 +67,19 @@ namespace OnixSystem_MVC.Controllers.Produtos
             var produto = await _repositoryProduto.PegarProdutoPorId(id);
             return View(produto);
         }
-       
+
+        [HttpPost]
         public async Task<IActionResult> DeleteSoftPost(Produto produto)
         {
+            var produtoBanco = await _repositoryProduto.PegarProdutoPorId(produto.Id);
 
-            //var produto = await _repositoryProduto.PegarProdutoPorId(id);
-            await _repositoryProduto.RemoverProduto(produto);
+            if (produtoBanco == null)
+            {
+                return NotFound();
+            }
+
+            await _repositoryProduto.RemoverProduto(produtoBanco);
+
             return RedirectToAction("Index");
         }
     }

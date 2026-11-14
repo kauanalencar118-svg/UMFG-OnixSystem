@@ -42,13 +42,13 @@
                 Venda
                 </a>
 
-                <a class="sidebar-items" asp-action="Index" asp-controller="Clientes">
+                <a class="sidebar-items" asp-action="Index" asp-controller="Cliente">
                     <i class="fa-solid fa-user"></i>
                     Clientes
                 </a>
 
-                 <a class="sidebar-items" asp-action="Index" asp-controller="Fornecedores">
-                   <i class="fa-solid fa-truck-front"></i>
+                <a class="sidebar-items" asp-action="Index" asp-controller="Fornecedor">
+                     <i class="fa-solid fa-truck-front"></i>
                     Fornecedores
                 </a>
 
@@ -56,14 +56,17 @@
                    <i class="fa-solid fa-box"></i>
                     Estoque
                 </a>
-                <a class="sidebar-items" asp-action="Index" asp-controller="Relatórios">
-                  <i class="fa-solid fa-chart-simple"></i>
+                <a class="sidebar-items"
+                   asp-action="Index"
+                   asp-controller="Relatorio">
+                    <i class="fa-solid fa-chart-simple"></i>
                     Relatórios
                 </a>
 
-                <a class="sidebar-items" asp-action="Index" asp-controller="Configurações">
-                  <i class="fa-solid fa-gear"></i>
-                   Configurações
+                <a class="sidebar-items"
+                    href="@Url.Action("Index", "Configuracao")">
+                    <i class="fa-solid fa-gear"></i>
+                    Configurações
                 </a>
             </div>
            

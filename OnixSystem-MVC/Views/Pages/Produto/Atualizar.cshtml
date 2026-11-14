@@ -1,12 +1,12 @@
 ﻿@model OnixSystem_MVC.Models.Entidades.Produto
 
 @{
-    ViewData["Title"] = "Cadastrar Produto";
+    ViewData["Title"] = "Atualizar Produto";
 }
 
 <div class="container mt-4">
 
-    <h2 class="mb-4">Cadastrar Produto</h2>
+    <h2 class="mb-4">Atualizar Produto</h2>
 
     <div class="card shadow-sm">
         <div class="card-body">
@@ -14,7 +14,9 @@
             <form asp-controller="Produto"
                   asp-action="AtualizarPost"
                   method="post">
+
                 <input type="hidden" asp-for="Id" />
+
                 <div class="mb-3">
                     <label asp-for="Nome" class="form-label">
                         Nome do Produto
@@ -29,17 +31,25 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Descricao" class="form-label">
-                        Descrição
+                    <label asp-for="Tamanho" class="form-label">
+                        Tamanho
                     </label>
 
-                    <textarea asp-for="Descricao"
+                    <input asp-for="Tamanho"
+                           class="form-control"
+                           placeholder="Digite o tamanho do produto"
+                           required />
+
+                    <span asp-validation-for="Tamanho"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Detalhes" class="form-label">Detalhes (opcional)</label>
+                    <textarea asp-for="Detalhes"
                               class="form-control"
                               rows="3"
-                              placeholder="Digite a descrição do produto"></textarea>
-
-                    <span asp-validation-for="Descricao"
-                          class="text-danger"></span>
+                              placeholder="Digite detalhes adicionais do produto (opcional)"></textarea>
                 </div>
 
                 <div class="mb-3">

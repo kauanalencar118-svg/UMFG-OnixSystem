@@ -1,0 +1,288 @@
+﻿
+@model IEnumerable<OnixSystem_MVC.Models.Entidades.Estoque>
+@using OnixSystem_MVC.Models.ViewModels
+
+@{
+    ViewData["Title"] = "Vendas";
+    var carrinho = ViewBag.Carrinho as List<ItemCarrinhoViewModel>
+        ?? new List<ItemCarrinhoViewModel>();
+}
+
+<div class="container-fluid">
+    <h2 class="mb-2">Vendas</h2>
+    <p class="text-muted">Selecione os produtos disponíveis para venda.</p>
+
+    @if (TempData["Erro"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Erro"]</div>
+    }
+
+    <div class="row g-4">
+
+        <!-- Produtos disponíveis -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Produtos disponíveis</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Tamanho</th>
+                                    <th>Preço</th>
+                                    <th>Estoque</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var estoque in Model.Where(e =>
+                                    e.Quantidade > 0 &&
+                                    e.Produto != null &&
+                                    e.Produto.IsAtivo))
+                                {
+                                    <tr>
+                                        <td>@estoque.Produto!.Nome</td>
+                                        <td>@estoque.Produto!.Tamanho</td>
+                                        <td>@estoque.Produto!.Preco.ToString("C2")</td>
+
+                                        <td>
+                                            <span class="badge bg-success">
+                                                @estoque.Quantidade
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <form asp-controller="Venda"
+                                                  asp-action="Adicionar"
+                                                  method="post">
+
+                                                <input type="hidden"
+                                                       name="produtoId"
+                                                       value="@estoque.ProdutoId" />
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-primary">
+                                                    Adicionar
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carrinho de vendas -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Carrinho de vendas</h5>
+                </div>
+
+                <div class="card-body">
+
+                    @if (carrinho.Any())
+                    {
+                        @foreach (var item in carrinho)
+                        {
+                            <div class="d-flex justify-content-between border-bottom py-3">
+
+                                <div>
+                                    <strong>@item.Nome</strong>
+
+                                    <div class="text-muted small">
+                                        Tamanho: @item.Tamanho
+                                    </div>
+
+                                    <!-- Controles de quantidade -->
+                                    <div class="d-flex align-items-center gap-2 mt-2">
+
+                                        <form asp-controller="Venda"
+                                              asp-action="AlterarQuantidade"
+                                              method="post">
+
+                                            <input type="hidden"
+                                                   name="produtoId"
+                                                   value="@item.ProdutoId" />
+
+                                            <input type="hidden"
+                                                   name="alteracao"
+                                                   value="-1" />
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">
+                                                −
+                                            </button>
+                                        </form>
+
+                                        <span class="fw-bold">
+                                            @item.Quantidade
+                                        </span>
+
+                                        <form asp-controller="Venda"
+                                              asp-action="AlterarQuantidade"
+                                              method="post">
+
+                                            <input type="hidden"
+                                                   name="produtoId"
+                                                   value="@item.ProdutoId" />
+
+                                            <input type="hidden"
+                                                   name="alteracao"
+                                                   value="1" />
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-primary">
+                                                +
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                                <!-- Preço, subtotal e exclusão -->
+                                <div class="text-end">
+
+                                    <div class="text-muted small">
+                                        Preço unitário
+                                    </div>
+
+                                    <div>
+                                        @item.Preco.ToString("C2")
+                                    </div>
+
+                                    <div class="text-muted small mt-2">
+                                        Subtotal
+                                    </div>
+
+                                    <strong class="text-success">
+                                        @item.Subtotal.ToString("C2")
+                                    </strong>
+
+                                    <!-- Botão que abre a confirmação -->
+                                    <div class="mt-2">
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalRemover-@item.ProdutoId">
+
+                                            <i class="fas fa-trash"></i>
+                                            Excluir
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Modal de confirmação -->
+                            <div class="modal fade"
+                                 id="modalRemover-@item.ProdutoId"
+                                 tabindex="-1"
+                                 aria-hidden="true">
+
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                <i class="fas fa-trash text-danger me-2"></i>
+                                                Remover produto?
+                                            </h5>
+
+                                            <button type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal">
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body text-center">
+
+                                            <h5>@item.Nome</h5>
+
+                                            <p class="text-muted">
+                                                Tamanho: @item.Tamanho
+                                            </p>
+
+                                            <p>
+                                                Tem certeza de que deseja remover
+                                                este produto do carrinho?
+                                            </p>
+
+                                            <small class="text-muted">
+                                                Essa ação não afetará o estoque.
+                                            </small>
+
+                                        </div>
+
+                                        <div class="modal-footer">
+
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">
+                                                Cancelar
+                                            </button>
+
+                                            <form asp-controller="Venda"
+                                                  asp-action="Remover"
+                                                  method="post">
+
+                                                <input type="hidden"
+                                                       name="produtoId"
+                                                       value="@item.ProdutoId" />
+
+                                                <button type="submit"
+                                                        class="btn btn-danger">
+                                                    <i class="fas fa-trash me-1"></i>
+                                                    Sim, remover
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Total da venda -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <h5>Total:</h5>
+
+                            <h5 class="text-success">
+                                @carrinho.Sum(i => i.Subtotal).ToString("C2")
+                            </h5>
+                        </div>
+                        <!-- Finalizar venda -->
+                            <div class="mt-4">
+                                <a asp-controller="Venda"
+                                   asp-action="Pagamento"
+                                   class="btn btn-success w-100">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Finalizar Venda
+                                </a>
+                            </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center mb-0">
+                            Nenhum produto adicionado ao carrinho.
+                        </p>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

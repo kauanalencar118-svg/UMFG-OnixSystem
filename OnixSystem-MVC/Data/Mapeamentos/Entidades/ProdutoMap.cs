@@ -18,13 +18,20 @@ namespace OnixSystem_MVC.Data.Mapeamentos.Entidades
                 .IsRequired();
 
             builder
-                .Property(x => x.Descricao)
-                .HasColumnName("DESCRICAO")
-                .IsRequired();
+             .Property(x => x.Tamanho)
+             .HasColumnName("TAMANHO")
+             .IsRequired();
+
+            builder
+             .Property(x => x.Detalhes)
+             .HasColumnName("DETALHES")
+             .IsRequired(false);
+
 
             builder
                 .Property(x => x.Preco)
                 .HasColumnName("PRECO")
+                .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
             builder

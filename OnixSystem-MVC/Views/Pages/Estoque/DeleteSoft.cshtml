@@ -1,0 +1,52 @@
+﻿@model OnixSystem_MVC.Models.Entidades.Estoque
+
+@{
+    ViewData["Title"] = "Desativar Estoque";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Desativar Estoque</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <p>Tem certeza de que deseja desativar este estoque?</p>
+
+            <div class="mb-3">
+                <label class="form-label">Produto</label>
+                <input type="text" value="@(Model.Produto?.Nome ?? "Produto não encontrado")" class="form-control" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Quantidade atual</label>
+                <input type="text" value="@Model.Quantidade" class="form-control" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Estoque mínimo</label>
+                <input type="text" value="@Model.EstoqueMinimo" class="form-control" readonly />
+            </div>
+
+            <form asp-controller="Estoque" asp-action="DeleteSoftPost" method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit" class="btn btn-danger">
+                        Confirmar Desativação
+                    </button>
+
+                    <a asp-controller="Estoque" asp-action="Index" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

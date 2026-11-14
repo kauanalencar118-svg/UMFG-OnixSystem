@@ -1,0 +1,95 @@
+﻿
+@model IEnumerable<OnixSystem_MVC.Models.Entidades.Estoque>
+
+@{
+    ViewData["Title"] = "Estoque";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Controle de Estoque</h2>
+
+    <div class="mb-3">
+        <a asp-controller="Estoque"
+           asp-action="Criar"
+           class="btn btn-primary">
+            Novo Estoque
+        </a>
+
+        <a asp-controller="Estoque"
+           asp-action="Inativos"
+           class="btn btn-warning">
+            Estoques Inativos
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Código / ID</th>
+                            <th>Produto</th>
+                            <th>Tamanho</th>
+                            <th>Quantidade</th>
+                            <th>Estoque Mínimo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var estoque in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(estoque.Produto?.CodigoBarras))
+                                    {
+                                        @estoque.Produto.CodigoBarras
+                                    }
+                                    else
+                                    {
+                                        @estoque.ProdutoId
+                                    }
+                                </td>
+
+                                <td>
+                                    @(estoque.Produto?.Nome ?? "Produto não encontrado")
+                                </td>
+
+                                <td>
+                                    @(estoque.Produto?.Tamanho ?? "Não informado")
+                                </td>
+
+                                <td>@estoque.Quantidade</td>
+
+                                <td>@estoque.EstoqueMinimo</td>
+
+                                <td>
+                                    <a asp-controller="Estoque"
+                                       asp-action="Atualizar"
+                                       asp-route-id="@estoque.Id"
+                                       class="btn btn-warning btn-sm">
+                                        Editar
+                                    </a>
+
+                                    <a asp-controller="Estoque"
+                                       asp-action="DeleteSoft"
+                                       asp-route-id="@estoque.Id"
+                                       class="btn btn-danger btn-sm">
+                                        Desativar
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>

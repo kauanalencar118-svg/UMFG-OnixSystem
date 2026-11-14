@@ -24,6 +24,7 @@ namespace OnixSystem_MVC.Data.Repositorios.Produtos
         public async Task CriarProduto(Produto produto)
         {
             await _context.AddAsync(produto);
+            
             await _context.SaveChangesAsync();
         }
 
@@ -32,9 +33,10 @@ namespace OnixSystem_MVC.Data.Repositorios.Produtos
             return await _context.Produtos.Where(p => p.IsAtivo == true).ToListAsync();
         }
 
-        public async Task<Produto> PegarProdutoPorId(Guid id)
+        public async Task<Produto?> PegarProdutoPorId(Guid id)
         {
-            return await _context.Set<Produto>().FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Set<Produto>()
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task RemoverProduto(Produto produto)

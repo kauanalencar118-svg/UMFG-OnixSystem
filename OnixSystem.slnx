@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="OnixSystem-MVC/OnixSystem-MVC.csproj" />
+  <Project Path="TestProject1/TestProject1.csproj" Id="7f4f656f-8199-4556-9078-ca08634b2636" />
 </Solution>

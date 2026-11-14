@@ -1,6 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using OnixSystem_MVC.Data.Contexts;
+using OnixSystem_MVC.Data.Repositorios.Clientes;
+using OnixSystem_MVC.Data.Repositorios.Estoques;
+using OnixSystem_MVC.Data.Repositorios.Fornecedores;
 using OnixSystem_MVC.Data.Repositorios.Produtos;
+using OnixSystem_MVC.Data.Repositorios.Configuracoes;
+using OnixSystem_MVC.Data.Repositorios.Vendas;
 
 namespace OnixSystem_MVC
 {
@@ -9,6 +14,14 @@ namespace OnixSystem_MVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDistributedMemoryCache();
+
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseMySQL(
@@ -17,6 +30,11 @@ namespace OnixSystem_MVC
                 )
             );
             builder.Services.AddScoped<IRepositorioProduto, RepositorioProduto>();
+            builder.Services.AddScoped<IRepositorioCliente, RepositorioCliente>();
+            builder.Services.AddScoped<IRepositorioEstoque, RepositorioEstoque>();
+            builder.Services.AddScoped<IRepositorioFornecedor, RepositorioFornecedor>();
+            builder.Services.AddScoped<IRepositorioConfiguracaoSistema, RepositorioConfiguracaoSistema>();
+            builder.Services.AddScoped<IRepositorioVenda, RepositorioVenda>();
             // Add services to the container.
             builder.Services
                 .AddControllersWithViews()
@@ -37,6 +55,8 @@ namespace OnixSystem_MVC
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

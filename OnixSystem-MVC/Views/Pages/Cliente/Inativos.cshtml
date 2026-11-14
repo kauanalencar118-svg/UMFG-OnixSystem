@@ -1,0 +1,86 @@
+﻿@model IEnumerable<OnixSystem_MVC.Models.Entidades.Cliente>
+
+@{
+    ViewData["Title"] = "Clientes Inativos";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Clientes Inativos</h2>
+
+    @if (TempData["Erro"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Erro"]
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <table class="table table-striped table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var cliente in Model)
+                    {
+                        <tr>
+                            <td>@cliente.Nome</td>
+                            <td>@cliente.CPF</td>
+                            <td>@cliente.Telefone</td>
+                            <td>@cliente.Email</td>
+
+                            <td>
+                                <form asp-controller="Cliente"
+                                      asp-action="Reativar"
+                                      asp-route-id="@cliente.Id"
+                                      method="post">
+
+                                    <div class="d-flex gap-2">
+
+                                        <input type="password"
+                                               name="senha"
+                                               class="form-control form-control-sm"
+                                               placeholder="Digite a senha"
+                                               required />
+
+                                        <button type="submit"
+                                                class="btn btn-success btn-sm">
+                                            Reativar
+                                        </button>
+
+                                    </div>
+
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+            @if (!Model.Any())
+            {
+                <p class="text-center text-muted">
+                    Não existem clientes desativados.
+                </p>
+            }
+
+            <a asp-controller="Cliente"
+               asp-action="Index"
+               class="btn btn-secondary">
+                Voltar
+            </a>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+﻿
+@model OnixSystem_MVC.Models.Entidades.Fornecedor
+
+@{
+    ViewData["Title"] = "Desativar Fornecedor";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Desativar Fornecedor</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h5 class="text-danger mb-3">
+                Tem certeza de que deseja desativar este fornecedor?
+            </h5>
+
+            <div class="mb-3">
+                <strong>Razão Social:</strong>
+                @Model.RazaoSocial
+            </div>
+
+            <div class="mb-3">
+                <strong>CNPJ:</strong>
+                @Model.CNPJ
+            </div>
+
+            <div class="mb-3">
+                <strong>Telefone:</strong>
+                @Model.Telefone
+            </div>
+
+            <div class="mb-3">
+                <strong>E-mail:</strong>
+                @Model.Email
+            </div>
+
+            <div class="mb-3">
+                <strong>Endereço:</strong>
+                @Model.Endereco
+            </div>
+
+            <form asp-controller="Fornecedor"
+                  asp-action="DeleteSoftPost"
+                  method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit" class="btn btn-danger">
+                        Confirmar Desativação
+                    </button>
+
+                    <a asp-controller="Fornecedor"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

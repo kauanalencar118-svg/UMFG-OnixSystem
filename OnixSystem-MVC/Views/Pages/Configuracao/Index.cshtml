@@ -1,0 +1,274 @@
+﻿
+@model OnixSystem_MVC.Models.Entidades.ConfiguracaoSistema
+
+@{
+    ViewData["Title"] = "Configurações";
+    bool temConfiguracao = ViewBag.TemConfiguracao == true;
+    bool modoEdicao = ViewBag.ModoEdicao == true;
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Configurações do Sistema</h2>
+        <p class="text-muted">
+            Gerencie as informações principais da sua loja.
+        </p>
+    </div>
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["MensagemErro"]
+        </div>
+    }
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-white">
+            <h5 class="mb-0">Configurações Gerais</h5>
+        </div>
+
+        <div class="card-body">
+
+            @if (temConfiguracao && !modoEdicao)
+            {
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h5 class="mb-1">Dados da loja</h5>
+                        <span class="text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Configurações salvas
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-4">
+                        <label class="text-muted">Nome da Loja</label>
+                        <h6>@Model.NomeLoja</h6>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="text-muted">CNPJ</label>
+                        <h6>@Model.CNPJ</h6>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="text-muted">Endereço</label>
+                        <h6>@Model.Endereco</h6>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="text-muted">Telefone</label>
+                        <h6>@Model.Telefone</h6>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="text-muted">E-mail</label>
+                        <h6>@Model.Email</h6>
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <button type="button"
+                            class="btn btn-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalExcluir">
+                        <i class="bi bi-trash"></i>
+                        Excluir dados da loja
+                    </button>
+
+                    <a asp-controller="Configuracao"
+                       asp-action="Editar"
+                       class="btn btn-primary">
+                        <i class="bi bi-pencil-square"></i>
+                        Editar configurações
+                    </a>
+
+                </div>
+
+                <!-- Modal de exclusão por senha -->
+                <div class="modal fade" id="modalExcluir" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">Excluir dados da loja</h5>
+
+                                <button type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal">
+                                </button>
+                            </div>
+
+                            <form asp-controller="Configuracao"
+                                  asp-action="Excluir"
+                                  method="post">
+
+                                <div class="modal-body">
+
+                                    <p>
+                                        Para confirmar a exclusão, informe sua senha.
+                                    </p>
+
+                                    <label class="form-label">Senha</label>
+
+                                    <input type="password"
+                                           name="senha"
+                                           class="form-control"
+                                           placeholder="Digite sua senha"
+                                           required />
+
+                                    <small class="text-muted">
+                                        Os dados serão desativados, mas permanecerão no banco.
+                                    </small>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button type="button"
+                                            class="btn btn-secondary"
+                                            data-bs-dismiss="modal">
+                                        Cancelar
+                                    </button>
+
+                                    <button type="submit" class="btn btn-danger">
+                                        Confirmar exclusão
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <h5 class="mb-4">
+                    @(temConfiguracao ? "Editar dados da loja" : "Cadastrar dados da loja")
+                </h5>
+
+                <form asp-controller="Configuracao"
+                      asp-action="Salvar"
+                      method="post">
+
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="DataCriacao" />
+                    <input type="hidden" asp-for="DataAtualizacao" />
+                    <input type="hidden" asp-for="IsAtivo" />
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="NomeLoja" class="form-label">
+                                Nome da Loja
+                            </label>
+                            <input asp-for="NomeLoja"
+                                   class="form-control"
+                                   placeholder="Digite o nome da loja"
+                                   required />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CNPJ" class="form-label">
+                                CNPJ
+                            </label>
+                            <input asp-for="CNPJ"
+                                   class="form-control"
+                                   placeholder="00.000.000/0000-00"
+                                   required />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Endereco" class="form-label">
+                                Endereço
+                            </label>
+                            <input asp-for="Endereco"
+                                   class="form-control"
+                                   placeholder="Digite o endereço"
+                                   required />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Telefone" class="form-label">
+                                Telefone
+                            </label>
+                            <input asp-for="Telefone"
+                                   class="form-control"
+                                   placeholder="(00) 00000-0000"
+                                   required />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Email" class="form-label">
+                                E-mail
+                            </label>
+                            <input asp-for="Email"
+                                   type="email"
+                                   class="form-control"
+                                   placeholder="exemplo@email.com"
+                                   required />
+                        </div>
+
+                        @if (string.IsNullOrWhiteSpace(Model.SenhaHash))
+                        {
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Senha" class="form-label">
+                                    Senha de Segurança
+                                </label>
+
+                                <input asp-for="Senha"
+                                       type="password"
+                                       class="form-control"
+                                       placeholder="Crie uma senha de segurança"
+                                       autocomplete="new-password"
+                                       required />
+
+                                <small class="text-muted">
+                                    Essa senha será utilizada para autorizar operações protegidas do sistema.
+                                </small>
+                            </div>
+                        }
+
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <a asp-controller="Configuracao"
+                           asp-action="Index"
+                           class="btn btn-secondary">
+                            Cancelar
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i>
+                            Salvar configurações
+                        </button>
+
+                    </div>
+
+                </form>
+            }
+
+        </div>
+    </div>
+
+</div>
