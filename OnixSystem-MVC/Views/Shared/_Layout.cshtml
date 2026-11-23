@@ -30,9 +30,10 @@
 
             </div>
 
-            <div class="sidebar-container">
+            <div class="sidebar-container ">
                 
-                <a class="sidebar-items" asp-action="Index" asp-controller="Produto">
+                <div class="d-flex flex-column gap-1 ">
+                    <a class="sidebar-items" asp-action="Index" asp-controller="Produto">
                   <i class="fa-solid fa-tags"></i>
                     Produto
                 </a>
@@ -47,10 +48,10 @@
                     Clientes
                 </a>
 
-                <a class="sidebar-items" asp-action="Index" asp-controller="Fornecedor">
+                @* <a class="sidebar-items" asp-action="Index" asp-controller="Fornecedor">
                      <i class="fa-solid fa-truck-front"></i>
                     Fornecedores
-                </a>
+                </a>  *@
 
                  <a class="sidebar-items" asp-action="Index" asp-controller="Estoque">
                    <i class="fa-solid fa-box"></i>
@@ -62,26 +63,24 @@
                     <i class="fa-solid fa-chart-simple"></i>
                     Relatórios
                 </a>
+                </div>
+                
 
-                <a class="sidebar-items"
+                <div>
+                     <a class="sidebar-items"
                     href="@Url.Action("Index", "Configuracao")">
                     <i class="fa-solid fa-gear"></i>
                     Configurações
                 </a>
+                </div>
+               
             </div>
            
             
         </div>
 
         <div class="main-grid">
-            <div class="navbarr">
-                <div class="navbar-perfil">
-                     <a asp-action="Index" asp-controller="Home">Kauan</a>
-                <span>Administrador</span>
-                </div>
-               
-
-            </div>
+            
             <main role="main" class="">
                 @RenderBody()
 

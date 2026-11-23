@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using OnixSystem_MVC.Data.Repositorios.Vendas;
 using OnixSystem_MVC.Data.Repositorios.Estoques;
+using OnixSystem_MVC.Data.Repositorios.Configuracoes;
 using System.Text.Json;
 using OnixSystem_MVC.Models.ViewModels;
 using OnixSystem_MVC.Models.Entidades;
@@ -12,13 +14,18 @@ namespace OnixSystem_MVC.Controllers.Vendas
     {
         private readonly IRepositorioVenda _repositoryVenda;
         private readonly IRepositorioEstoque _repositoryEstoque;
+        private readonly IRepositorioConfiguracaoSistema _repositorioConfiguracao;
+
+        private readonly PasswordHasher<ConfiguracaoSistema> _passwordHasher = new();
 
         public VendaController(
             IRepositorioVenda repositoryVenda,
-            IRepositorioEstoque repositoryEstoque)
+            IRepositorioEstoque repositoryEstoque,
+            IRepositorioConfiguracaoSistema repositorioConfiguracao)
         {
             _repositoryVenda = repositoryVenda;
             _repositoryEstoque = repositoryEstoque;
+            _repositorioConfiguracao = repositorioConfiguracao;
         }
 
         public async Task<IActionResult> Index()
@@ -126,12 +133,6 @@ namespace OnixSystem_MVC.Controllers.Vendas
             else
             {
                 TempData["Erro"] = "Tipo de desconto inválido.";
-                return RedirectToAction("Pagamento");
-            }
-
-            if (desconto > subtotal)
-            {
-                TempData["Erro"] = "O desconto não pode ser maior que o subtotal.";
                 return RedirectToAction("Pagamento");
             }
 
@@ -297,6 +298,75 @@ namespace OnixSystem_MVC.Controllers.Vendas
             }
 
             return RedirectToAction("Index");
+        }
+
+        // HISTÓRICO DE VENDAS
+        public async Task<IActionResult> Historico()
+        {
+            var vendas = await _repositoryVenda.ListarVendas();
+
+            return View("~/Views/Pages/Venda/Historico.cshtml", vendas);
+        }
+
+        // CANCELAR VENDA UTILIZANDO A SENHA DA CONFIGURAÇÃO DO SISTEMA
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExcluirVenda(Guid id, string senha)
+        {
+            var configuracao = await _repositorioConfiguracao.PegarConfiguracao();
+
+            if (configuracao == null ||
+                string.IsNullOrWhiteSpace(configuracao.SenhaHash))
+            {
+                TempData["Erro"] = "Configuração ou senha de segurança não encontrada.";
+                return RedirectToAction("Historico");
+            }
+
+            var resultado = _passwordHasher.VerifyHashedPassword(
+                configuracao,
+                configuracao.SenhaHash,
+                senha ?? string.Empty
+            );
+
+            if (resultado == PasswordVerificationResult.Failed)
+            {
+                TempData["Erro"] = "Senha incorreta.";
+                return RedirectToAction("Historico");
+            }
+
+            try
+            {
+                var excluida = await _repositoryVenda.ExcluirVenda(id);
+
+                if (!excluida)
+                {
+                    TempData["Erro"] = "Venda não encontrada ou já cancelada.";
+                    return RedirectToAction("Historico");
+                }
+
+                TempData["Sucesso"] =
+                    "Venda cancelada e estoque devolvido com sucesso.";
+            }
+            catch
+            {
+                TempData["Erro"] =
+                    "Não foi possível cancelar a venda. Nenhuma alteração foi confirmada.";
+            }
+
+            return RedirectToAction("Historico");
+        }
+        // CONSULTAR DETALHES DA VENDA
+        public async Task<IActionResult> Consultar(Guid id)
+        {
+            var venda = await _repositoryVenda.PegarVendaPorId(id);
+
+            if (venda == null)
+            {
+                TempData["Erro"] = "Venda não encontrada.";
+                return RedirectToAction("Historico");
+            }
+
+            return View("~/Views/Pages/Venda/Consultar.cshtml", venda);
         }
     }
 }

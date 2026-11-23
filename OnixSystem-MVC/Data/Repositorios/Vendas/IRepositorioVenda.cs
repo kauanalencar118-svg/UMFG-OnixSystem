@@ -10,5 +10,7 @@ namespace OnixSystem_MVC.Data.Repositorios.Vendas
         Task<IEnumerable<Venda>> ListarVendas();
 
         Task<Venda?> PegarVendaPorId(Guid id);
+
+        Task<bool> ExcluirVenda(Guid id);
     }
 }

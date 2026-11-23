@@ -1,0 +1,254 @@
+﻿
+@model OnixSystem_MVC.Models.Entidades.Venda
+
+@{
+    ViewData["Title"] = "Consultar Venda";
+    var cultura = new System.Globalization.CultureInfo("pt-BR");
+}
+
+<style>
+    .consulta-venda-container {
+        padding: 20px;
+    }
+
+    .consulta-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .consulta-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
+
+    .consulta-card .card-header {
+        background: #f8f9fa;
+        font-weight: 600;
+        padding: 15px 20px;
+    }
+
+    .info-label {
+        color: #6c757d;
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
+
+    .info-valor {
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .tabela-itens thead th {
+        background: #f8f9fa;
+        white-space: nowrap;
+    }
+
+    .total-venda {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #198754;
+    }
+
+    .codigo-venda {
+        font-weight: 600;
+        color: #495057;
+    }
+</style>
+
+<div class="container-fluid consulta-venda-container">
+
+    <!-- CABEÇALHO -->
+    <div class="consulta-header">
+
+        <div>
+            <h2 class="mb-1">Detalhes da Venda</h2>
+            <p class="text-muted mb-0">
+                Visualização completa da venda registrada.
+            </p>
+        </div>
+
+        <a asp-controller="Venda"
+           asp-action="Historico"
+           class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>
+            Voltar ao Histórico
+        </a>
+
+    </div>
+
+    <!-- INFORMAÇÕES DA VENDA -->
+    <div class="card consulta-card mb-4">
+
+        <div class="card-header">
+            <i class="fas fa-receipt me-2"></i>
+            Informações da Venda
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-3">
+                    <div class="info-label">Código da Venda</div>
+                    <div class="info-valor codigo-venda">
+                        @Model.Id.ToString().ToUpper()
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="info-label">Data e Hora</div>
+                    <div class="info-valor">
+                        @Model.DataVenda.ToString("dd/MM/yyyy HH:mm:ss")
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="info-label">Forma de Pagamento</div>
+                    <div class="info-valor">
+                        @Model.FormaPagamento
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="info-label">Situação</div>
+                    <div class="info-valor text-success">
+                        <i class="fas fa-check-circle me-1"></i>
+                        Venda registrada
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PRODUTOS -->
+    <div class="card consulta-card mb-4">
+
+        <div class="card-header">
+            <i class="fas fa-box me-2"></i>
+            Produtos da Venda
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0 tabela-itens">
+
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Tamanho</th>
+                            <th class="text-center">Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Total do Item</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Itens != null && Model.Itens.Any())
+                        {
+                            foreach (var item in Model.Itens)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @(item.Produto?.Nome ?? "Produto não encontrado")
+                                    </td>
+
+                                    <td>
+                                        @(item.Produto?.Tamanho ?? "-")
+                                    </td>
+
+                                    <td class="text-center">
+                                        @item.Quantidade
+                                    </td>
+
+                                    <td>
+                                        @item.PrecoUnitario.ToString("C", cultura)
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            @( (item.PrecoUnitario * item.Quantidade).ToString("C", cultura) )
+                                        </strong>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5"
+                                    class="text-center text-muted py-4">
+                                    Nenhum item encontrado nesta venda.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RESUMO FINANCEIRO -->
+    <div class="card consulta-card">
+
+        <div class="card-header">
+            <i class="fas fa-calculator me-2"></i>
+            Resumo Financeiro
+        </div>
+
+        <div class="card-body">
+
+            <div class="row justify-content-end">
+
+                <div class="col-md-5 col-lg-4">
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal:</span>
+                        <strong>
+                            @Model.Subtotal.ToString("C", cultura)
+                        </strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Desconto:</span>
+                        <strong class="text-danger">
+                            - @Model.Desconto.ToString("C", cultura)
+                        </strong>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold">Total:</span>
+
+                        <span class="total-venda">
+                            @Model.ValorTotal.ToString("C", cultura)
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

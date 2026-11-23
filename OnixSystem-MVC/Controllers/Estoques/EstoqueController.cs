@@ -18,13 +18,24 @@ namespace OnixSystem_MVC.Controllers.Estoques
             _repositorioProduto = repositorioProduto;
         }
 
-        public async Task<IActionResult> Index()
+        // LISTAR ESTOQUES
+        public async Task<IActionResult> Index(bool estoqueBaixo = false)
         {
             var estoques = await _repositorioEstoque.ListarEstoques();
+
+            if (estoqueBaixo)
+            {
+                estoques = estoques
+                    .Where(e => e.Quantidade <= e.EstoqueMinimo)
+                    .ToList();
+            }
+
+            ViewBag.FiltroEstoqueBaixo = estoqueBaixo;
+
             return View(estoques);
         }
 
-
+        // CRIAR
         public async Task<IActionResult> Criar()
         {
             var produtos = await _repositorioProduto.ListarProdutos();
@@ -41,7 +52,6 @@ namespace OnixSystem_MVC.Controllers.Estoques
 
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> CriarPost(Estoque estoque)
@@ -63,13 +73,16 @@ namespace OnixSystem_MVC.Controllers.Estoques
                 }
 
                 await _repositorioEstoque.CriarEstoque(estoque);
+
                 return RedirectToAction("Index");
             }
 
             ViewBag.Produtos = await _repositorioProduto.ListarProdutos();
+
             return View("Criar", estoque);
         }
 
+        // ATUALIZAR
         public async Task<IActionResult> Atualizar(Guid id)
         {
             var estoque = await _repositorioEstoque.PegarEstoquePorId(id);
@@ -86,12 +99,14 @@ namespace OnixSystem_MVC.Controllers.Estoques
             if (ModelState.IsValid)
             {
                 await _repositorioEstoque.AtualizarEstoque(estoque);
+
                 return RedirectToAction("Index");
             }
 
             return View("Atualizar", estoque);
         }
 
+        // EXCLUSÃO SOFT
         public async Task<IActionResult> DeleteSoft(Guid id)
         {
             var estoque = await _repositorioEstoque.PegarEstoquePorId(id);
@@ -105,14 +120,18 @@ namespace OnixSystem_MVC.Controllers.Estoques
         [HttpPost]
         public async Task<IActionResult> DeleteSoftPost(Estoque estoque)
         {
-            var estoqueBanco = await _repositorioEstoque.PegarEstoquePorId(estoque.Id);
+            var estoqueBanco = await _repositorioEstoque
+                .PegarEstoquePorId(estoque.Id);
 
             if (estoqueBanco == null)
                 return NotFound();
 
             await _repositorioEstoque.RemoverEstoque(estoqueBanco);
+
             return RedirectToAction("Index");
         }
+
+        // ESTOQUES INATIVOS
         public async Task<IActionResult> Inativos()
         {
             var estoques = await _repositorioEstoque.ListarEstoquesInativos();
@@ -120,10 +139,12 @@ namespace OnixSystem_MVC.Controllers.Estoques
             return View(estoques);
         }
 
+        // REATIVAR
         [HttpPost]
         public async Task<IActionResult> Reativar(Guid id)
         {
-            var estoque = await _repositorioEstoque.PegarEstoquePorIdIncluindoInativos(id);
+            var estoque = await _repositorioEstoque
+                .PegarEstoquePorIdIncluindoInativos(id);
 
             if (estoque == null)
             {

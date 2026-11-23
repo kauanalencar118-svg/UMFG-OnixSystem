@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<OnixSystem_MVC.Models.Entidades.Estoque>
+﻿@model IEnumerable<OnixSystem_MVC.Models.Entidades.Estoque>
 @using OnixSystem_MVC.Models.ViewModels
 
 @{
@@ -9,8 +8,25 @@
 }
 
 <div class="container-fluid">
-    <h2 class="mb-2">Vendas</h2>
-    <p class="text-muted">Selecione os produtos disponíveis para venda.</p>
+
+    <!-- CABEÇALHO -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+
+        <div>
+            <h2 class="mb-2">Vendas</h2>
+            <p class="text-muted">Selecione os produtos disponíveis para venda.</p>
+        </div>
+
+        <div>
+            <a asp-controller="Venda"
+               asp-action="Historico"
+               class="btn btn-secondary">
+                <i class="fas fa-history me-2"></i>
+                Histórico de Vendas
+            </a>
+        </div>
+
+    </div>
 
     @if (TempData["Erro"] != null)
     {
@@ -19,7 +35,7 @@
 
     <div class="row g-4">
 
-        <!-- Produtos disponíveis -->
+        <!-- PRODUTOS DISPONÍVEIS -->
         <div class="col-lg-7">
             <div class="card shadow-sm">
                 <div class="card-header">
@@ -80,7 +96,7 @@
             </div>
         </div>
 
-        <!-- Carrinho de vendas -->
+        <!-- CARRINHO -->
         <div class="col-lg-5">
             <div class="card shadow-sm">
                 <div class="card-header">
@@ -102,7 +118,7 @@
                                         Tamanho: @item.Tamanho
                                     </div>
 
-                                    <!-- Controles de quantidade -->
+                                    <!-- CONTROLES DE QUANTIDADE -->
                                     <div class="d-flex align-items-center gap-2 mt-2">
 
                                         <form asp-controller="Venda"
@@ -148,7 +164,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Preço, subtotal e exclusão -->
+                                <!-- PREÇO, SUBTOTAL E EXCLUSÃO -->
                                 <div class="text-end">
 
                                     <div class="text-muted small">
@@ -167,7 +183,7 @@
                                         @item.Subtotal.ToString("C2")
                                     </strong>
 
-                                    <!-- Botão que abre a confirmação -->
+                                    <!-- CONFIRMAÇÃO DE REMOÇÃO -->
                                     <div class="mt-2">
                                         <button type="button"
                                                 class="btn btn-sm btn-outline-danger"
@@ -183,7 +199,7 @@
 
                             </div>
 
-                            <!-- Modal de confirmação -->
+                            <!-- MODAL -->
                             <div class="modal fade"
                                  id="modalRemover-@item.ProdutoId"
                                  tabindex="-1"
@@ -254,7 +270,7 @@
                             </div>
                         }
 
-                        <!-- Total da venda -->
+                        <!-- TOTAL -->
                         <div class="d-flex justify-content-between mt-3">
                             <h5>Total:</h5>
 
@@ -262,15 +278,17 @@
                                 @carrinho.Sum(i => i.Subtotal).ToString("C2")
                             </h5>
                         </div>
-                        <!-- Finalizar venda -->
-                            <div class="mt-4">
-                                <a asp-controller="Venda"
-                                   asp-action="Pagamento"
-                                   class="btn btn-success w-100">
-                                    <i class="fas fa-check-circle me-2"></i>
-                                    Finalizar Venda
-                                </a>
-                            </div>
+
+                        <!-- FINALIZAR -->
+                        <div class="mt-4">
+                            <a asp-controller="Venda"
+                               asp-action="Pagamento"
+                               class="btn btn-success w-100">
+
+                                <i class="fas fa-check-circle me-2"></i>
+                                Finalizar Venda
+                            </a>
+                        </div>
                     }
                     else
                     {
@@ -278,7 +296,6 @@
                             Nenhum produto adicionado ao carrinho.
                         </p>
                     }
-
 
                 </div>
             </div>

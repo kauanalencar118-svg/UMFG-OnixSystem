@@ -1,52 +1,643 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
 }
-<div class="home-container">
-   <div>
-    <div>
-    @if (!string.IsNullOrWhiteSpace(ViewBag.NomeLoja))
-    {
-        <h1>Bem-vindo, @ViewBag.NomeLoja!</h1>
-    }
-    else
-    {
-        <h1>Bem-vindo!</h1>
-    }
 
-    <h2>Veja seus resultados.</h2>
-</div>
-   </div>
-   <div class="home-grid">
-       <div class="home-square">a</div>
-       <div class="home-square">a</div>
-       <div class="home-square">a</div>
-       <div class="home-square">a</div>
-   </div>
+<div class="dashboard">
+
+    <!-- CABEÇALHO -->
+    <div class="dashboard-header">
+        <div>
+            @if (!string.IsNullOrWhiteSpace(ViewBag.NomeLoja))
+            {
+                <h1>Bem-vindo, @ViewBag.NomeLoja!</h1>
+            }
+            else
+            {
+                <h1>Bem-vindo ao OnixSystem!</h1>
+            }
+
+            <p>Aqui está um resumo do seu negócio.</p>
+        </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="dashboard-cards">
+
+        <!-- PRODUTOS -->
+        <a asp-controller="Produto" asp-action="Index" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <div class="card-icon blue">📦</div>
+                <div class="card-info">
+                    <span>Total de Produtos</span>
+                    <h2>@(ViewBag.TotalProdutos ?? 0)</h2>
+                    <small>Produtos cadastrados</small>
+                </div>
+            </div>
+        </a>
+
+        <!-- CLIENTES -->
+        <a asp-controller="Cliente" asp-action="Index" class="dashboard-card-link">
+            <div class="dashboard-card">
+                <div class="card-icon green">👥</div>
+                <div class="card-info">
+                    <span>Total de Clientes</span>
+                    <h2>@(ViewBag.TotalClientes ?? 0)</h2>
+                    <small>Clientes cadastrados</small>
+                </div>
+            </div>
+        </a>
+
+        <!-- VENDAS -->
+        <a asp-controller="Venda"
+           asp-action="Historico"
+           class="dashboard-card-link">
+
+            <div class="dashboard-card">
+                <div class="card-icon purple">💰</div>
+                <div class="card-info">
+                    <span>Vendas</span>
+                    <h2>@(((decimal)ViewBag.TotalVendas).ToString("C", new System.Globalization.CultureInfo("pt-BR")))</h2>
+                    <small>Total de vendas</small>
+                </div>
+            </div>
+
+        </a>
+
+        <!-- ESTOQUE BAIXO -->
+        <a asp-controller="Estoque"
+           asp-action="Index"
+           asp-route-estoqueBaixo="true"
+           class="dashboard-card-link">
+
+            <div class="dashboard-card">
+                <div class="card-icon red">⚠️</div>
+                <div class="card-info">
+                    <span>Estoque Baixo</span>
+                    <h2>@(ViewBag.EstoqueBaixo ?? 0)</h2>
+                    <small>Produtos que precisam de atenção</small>
+                </div>
+            </div>
+
+        </a>
+
+    </div>
+
+    <!-- PAINÉIS -->
+    <div class="dashboard-panels">
+
+        <!-- GRÁFICO REAL -->
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+                <h3>Vendas da semana</h3>
+                <p>Faturamento dos últimos 7 dias</p>
+            </div>
+
+            <div class="sales-chart">
+                <div class="chart-bars">
+
+                    @if (ViewBag.GraficoSemana != null)
+                    {
+                        foreach (var dia in ViewBag.GraficoSemana)
+                        {
+                            <div class="chart-column">
+
+                                <div class="bar-container">
+
+                                    <span class="bar-value"
+                                          style="bottom: calc(@(dia.Altura)% + 6px)">
+                                        @dia.ValorFormatado
+                                    </span>
+
+                                    @if (dia.Valor > 0)
+                                    {
+                                        <div class="bar"
+                                             style="height: @(dia.Altura)%"
+                                             title="@dia.Dia - @dia.ValorFormatado">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="bar bar-zero"
+                                             title="@dia.Dia - @dia.ValorFormatado">
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <span class="chart-day">@dia.Dia</span>
+
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RANKING REAL -->
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+                <h3>Produtos mais vendidos</h3>
+                <p>Ranking real de vendas</p>
+            </div>
+
+            <div class="product-ranking">
+
+                @if (ViewBag.RankingProdutos != null &&
+                     ViewBag.RankingProdutos.Count > 0)
+                {
+                    var posicao = 1;
+
+                    foreach (var produto in ViewBag.RankingProdutos)
+                    {
+                        <div class="ranking-item">
+
+                            <div class="ranking-number">
+                                @posicao
+                            </div>
+
+                            <div class="ranking-info">
+
+                                <strong>@produto.Nome</strong>
+
+                                @if (!string.IsNullOrWhiteSpace(produto.Detalhes))
+                                {
+                                    <span class="ranking-detail">
+                                        @produto.Detalhes
+                                    </span>
+                                }
+
+                                <span class="ranking-size">
+                                    Tamanho: @produto.Tamanho
+                                </span>
+
+                                <span class="ranking-sales">
+                                    @produto.QuantidadeVendida unidades vendidas
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        posicao++;
+                    }
+                }
+                else
+                {
+                    <div class="ranking-item">
+                        <div class="ranking-info">
+                            <strong>Nenhuma venda registrada</strong>
+                            <span>O ranking aparecerá quando houver vendas.</span>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 <style>
-    .home-container{
-        display: flex;
-        flex-direction: column;
+
+    /* ESTRUTURA */
+
+    .dashboard {
+        width: 100%;
+        min-width: 0;
+        padding: 5px;
     }
-    .home-grid {
+
+    .dashboard-header {
+        margin-bottom: 12px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+    }
+
+    .dashboard-header p {
+        color: #64748b;
+        font-size: 13px;
+        margin-bottom: 0;
+    }
+
+    /* CARDS */
+
+    .dashboard-card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        min-width: 0;
+    }
+
+    .dashboard-card-link .dashboard-card {
+        height: 100%;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .dashboard-card-link:hover .dashboard-card {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.10);
+    }
+
+    .dashboard-cards {
         display: grid;
-        grid-template-columns: repeat(4, 1fr); 
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
         width: 100%;
-        gap: 15px; 
-        padding: 8px; 
-        box-sizing: border-box;
     }
-    
-    .home-square {
-        background: white; 
-        box-shadow: 1px 2px 5px rgba(0, 0,0, 0.3);
-        color: white;
-        width: 100%;
-        aspect-ratio: 4 / 3; 
-        sdisplay: flex;
+
+    .dashboard-card {
+        background: #ffffff;
+        padding: 14px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+        border: 1px solid #eef2f7;
+    }
+
+    .card-icon {
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        border-radius: 12px;
+        display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 5px;
+        font-size: 20px;
     }
+
+    .blue {
+        background: #e8f1ff;
+    }
+
+    .green {
+        background: #e5f8ee;
+    }
+
+    .purple {
+        background: #f0eaff;
+    }
+
+    .red {
+        background: #ffe9e9;
+    }
+
+    .card-info {
+        min-width: 0;
+    }
+
+    .card-info span {
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .card-info h2 {
+        font-size: 20px;
+        margin: 4px 0;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .card-info small {
+        font-size: 11px;
+        color: #94a3b8;
+    }
+
+    /* PAINÉIS */
+
+    .dashboard-panels {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+        gap: 12px;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .dashboard-panel {
+        background: #ffffff;
+        border: 1px solid #eef2f7;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        min-width: 0;
+    }
+
+    .panel-header {
+        margin-bottom: 12px;
+    }
+
+    .panel-header h3 {
+        color: #1e293b;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .panel-header p {
+        color: #94a3b8;
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+
+    /* GRÁFICO */
+
+    .sales-chart {
+        height: 190px;
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+        padding-top: 10px;
+    }
+
+    .chart-bars {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+        width: 100%;
+        height: 100%;
+        border-bottom: 1px solid #e2e8f0;
+        gap: 8px;
+    }
+
+    .chart-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 1;
+        height: 100%;
+        gap: 6px;
+        min-width: 0;
+    }
+
+    .bar-container {
+        width: 100%;
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        position: relative;
+    }
+
+    .bar {
+        width: 100%;
+        max-width: 38px;
+        background: linear-gradient(180deg, #3b82f6, #2563eb);
+        border-radius: 7px 7px 0 0;
+        transition: height 0.3s, filter 0.3s;
+        cursor: pointer;
+    }
+
+    .bar:hover {
+        filter: brightness(1.1);
+    }
+
+    .bar-zero {
+        height: 0;
+    }
+
+    /* VALOR ACIMA DAS BARRAS */
+
+    .bar-value {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #2563eb;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    .chart-day {
+        color: #64748b;
+        font-size: 11px;
+        padding-bottom: 5px;
+    }
+
+    /* RANKING */
+
+    .product-ranking {
+        display: flex;
+        height: 300px;
+        overflow-y: auto;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .ranking-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 9px 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .ranking-number {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        border-radius: 10px;
+        background: #eff6ff;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 13px;
+        margin-top: 2px;
+    }
+
+    .ranking-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+    }
+
+    .ranking-info strong {
+        color: #334155;
+        font-size: 13px;
+    }
+
+    .ranking-info span {
+        font-size: 11px;
+    }
+
+    .ranking-detail {
+        color: #64748b;
+    }
+
+    .ranking-size {
+        color: #64748b;
+    }
+
+    .ranking-sales {
+        color: #2563eb !important;
+        font-weight: 600;
+    }
+
+    /* TELAS MENORES */
+
+    @@media (max-width: 1100px) {
+
+        .dashboard-cards {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .dashboard-panels {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* CELULAR */
+
+    @@media (max-width: 768px) {
+
+        .dashboard {
+            padding: 8px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 20px;
+        }
+
+        .dashboard-cards {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .dashboard-card {
+            padding: 12px;
+            gap: 10px;
+        }
+
+        .card-icon {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            font-size: 18px;
+        }
+
+        .card-info h2 {
+            font-size: 18px;
+        }
+
+        .dashboard-panels {
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .dashboard-panel {
+            padding: 12px;
+        }
+
+        .sales-chart {
+            height: 170px;
+        }
+
+        .bar-value {
+            font-size: 10px;
+        }
+    }
+
+    /* CELULAR PEQUENO */
+
+    @@media (max-width: 480px) {
+
+        .dashboard-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-card {
+            padding: 12px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 18px;
+        }
+
+        .dashboard-panel {
+            padding: 10px;
+        }
+
+        .sales-chart {
+            height: 150px;
+        }
+
+        .chart-bars {
+            gap: 5px;
+        }
+
+        .chart-day {
+            font-size: 10px;
+        }
+
+        .bar {
+            max-width: 28px;
+        }
+
+        .bar-value {
+            font-size: 9px;
+        }
+    }
+
+    /* REDUZIR ESPAÇOS EM TELAS COM POUCA ALTURA */
+
+    @@media (max-height: 800px) and (min-width: 769px) {
+
+        .dashboard-header {
+            margin-bottom: 8px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 20px;
+        }
+
+        .dashboard-cards {
+            gap: 10px;
+        }
+
+        .dashboard-card {
+            padding: 10px;
+        }
+
+        .dashboard-panels {
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .dashboard-panel {
+            padding: 12px;
+        }
+
+        .panel-header {
+            margin-bottom: 8px;
+        }
+
+        .sales-chart {
+            height: 155px;
+        }
+
+        .ranking-item {
+            padding: 6px 0;
+        }
+    }
+
 </style>

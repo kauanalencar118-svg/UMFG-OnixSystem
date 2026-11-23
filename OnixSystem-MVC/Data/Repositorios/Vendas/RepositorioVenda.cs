@@ -46,22 +46,22 @@ namespace OnixSystem_MVC.Data.Repositorios.Vendas
                 estoque.Quantidade -= item.Quantidade;
             }
 
-            // Calcula o valor total dos produtos antes do desconto
+            // Calcula subtotal
             venda.Subtotal = venda.Itens.Sum(
                 item => item.Quantidade * item.PrecoUnitario);
 
-            // Garante que o desconto tenha no máximo duas casas decimais
+            // Arredonda desconto
             venda.Desconto = Math.Round(
                 venda.Desconto, 2, MidpointRounding.AwayFromZero);
 
-            // Impede descontos inválidos
+            // Valida desconto
             if (venda.Desconto < 0 || venda.Desconto > venda.Subtotal)
             {
                 throw new InvalidOperationException(
                     "O desconto informado é inválido.");
             }
 
-            // Calcula o valor final da venda
+            // Calcula total
             venda.ValorTotal = venda.Subtotal - venda.Desconto;
 
             await _context.Vendas.AddAsync(venda);
@@ -87,6 +87,43 @@ namespace OnixSystem_MVC.Data.Repositorios.Vendas
                     .ThenInclude(i => i.Produto)
                 .FirstOrDefaultAsync(v => v.Id == id);
         }
+
+        // EXCLUIR VENDA (SOFT DELETE E DEVOLUÇÃO DE ESTOQUE)
+        public async Task<bool> ExcluirVenda(Guid id)
+        {
+            await using var transaction =
+                await _context.Database.BeginTransactionAsync();
+
+            var venda = await _context.Vendas
+                .Include(v => v.Itens)
+                .FirstOrDefaultAsync(v => v.Id == id && v.IsAtivo);
+
+            if (venda == null)
+                return false;
+
+            foreach (var item in venda.Itens)
+            {
+                var estoque = await _context.Estoques
+                    .FirstOrDefaultAsync(e => e.ProdutoId == item.ProdutoId);
+
+                if (estoque == null)
+                {
+                    throw new InvalidOperationException(
+                        $"Estoque não encontrado para o produto ID {item.ProdutoId}.");
+                }
+
+                // Devolve a quantidade ao estoque
+                estoque.Quantidade += item.Quantidade;
+            }
+
+            // Desativa a venda
+            venda.IsAtivo = false;
+
+            await _context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+            return true;
+        }
     }
 }
-

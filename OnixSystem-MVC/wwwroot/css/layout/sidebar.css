@@ -1,53 +1,94 @@
 * {
     font-family: "Poppins", sans-serif;
     font-weight: 250;
+    box-sizing: border-box;
 }
+
 .sidebar {
     display: flex;
     flex-direction: column;
     background: #000d1a;
-    height: 100%;
-    padding: 2vh;
-    gap: clamp(0.1rem, 1vw, 1rem);
+    min-height: 100%;
+    padding: 10px;
+    gap: clamp(5px, 1vw, 16px);
 }
+
 a {
     color: white !important;
     text-decoration: none;
 }
+
 .sidebar-title a {
-    
-    font-size: 2.5vw;
+    font-size: clamp(18px, 2vw, 28px);
     white-space: nowrap;
     font-weight: 100;
     font-style: normal;
 }
+
 .sidebar-title {
     display: flex;
     width: 100%;
     justify-content: center;
     border-bottom: 1px solid #7e7e7e4a;
-    
+    padding-bottom: 10px;
 }
 
 .sidebar-container {
     display: flex;
     width: 100%;
-   
+    flex: 1;
+    justify-content: space-between;
     flex-direction: column;
-    gap:5px;
+    gap: 5px;
 }
+
 .sidebar-items {
     display: flex;
     align-items: center;
     gap: 0.5em;
-    font-size: 1.2vw;
+    font-size: clamp(13px, 1vw, 16px);
     width: 100%;
-    padding: 1.5vh;
+    padding: clamp(10px, 1.5vh, 16px);
     border-radius: 5px;
     border: 1px solid #7e7e7e4a;
     transition: 0.3s all ease;
 }
 
-    .sidebar-items:hover {
-        background: #001a3461
+.sidebar-items:hover {
+    background: #001a3461;
+}
+
+
+
+
+
+/* Celulares */
+@media (max-width: 768px) {
+   
+    .sidebar {
+        min-height: auto;
     }
+
+    .sidebar-container {
+        gap: 8px;
+    }
+
+}
+
+/* Celulares menores */
+@media (max-width: 480px) {
+    .sidebar {
+        padding: 8px;
+    }
+
+    .sidebar-title a {
+        font-size: 18px;
+    }
+
+    .sidebar-items {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+   
+}

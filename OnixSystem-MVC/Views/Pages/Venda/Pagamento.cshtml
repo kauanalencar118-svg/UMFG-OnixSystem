@@ -201,12 +201,12 @@
 
     valorRecebido.addEventListener("input", calcularTroco);
 
-    document.querySelector("form").addEventListener("submit", function () {
-        const desconto = obterDesconto();
+    // document.querySelector("form").addEventListener("submit", function () {
+    //     const desconto = obterDesconto();
 
-        // Envia o desconto como número decimal com ponto.
-        valorDesconto.value = desconto.toFixed(2);
-    });
+    //     Envia o desconto como número decimal com ponto.
+    //     valorDesconto.value = desconto.toFixed(2);
+    // });
 
     calcularDesconto();
 </script>

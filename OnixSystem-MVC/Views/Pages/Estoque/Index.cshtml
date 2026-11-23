@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<OnixSystem_MVC.Models.Entidades.Estoque>
+﻿@model IEnumerable<OnixSystem_MVC.Models.Entidades.Estoque>
 
 @{
     ViewData["Title"] = "Estoque";
@@ -43,7 +42,9 @@
                     <tbody>
                         @foreach (var estoque in Model)
                         {
-                            <tr>
+                            bool estoqueBaixo = estoque.Quantidade <= estoque.EstoqueMinimo;
+
+                            <tr class="@(estoqueBaixo ? "estoque-baixo" : "")">
                                 <td>
                                     @if (!string.IsNullOrWhiteSpace(estoque.Produto?.CodigoBarras))
                                     {
@@ -63,7 +64,19 @@
                                     @(estoque.Produto?.Tamanho ?? "Não informado")
                                 </td>
 
-                                <td>@estoque.Quantidade</td>
+                                <td>
+                                    @if (estoqueBaixo)
+                                    {
+                                        <span class="quantidade-baixa">
+                                            @estoque.Quantidade
+                                            <span class="badge-baixo">ESTOQUE BAIXO</span>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        @estoque.Quantidade
+                                    }
+                                </td>
 
                                 <td>@estoque.EstoqueMinimo</td>
 
@@ -93,3 +106,25 @@
     </div>
 
 </div>
+
+<style>
+    .estoque-baixo td {
+        background-color: #ffe5e5 !important;
+        color: #a30000;
+    }
+
+    .quantidade-baixa {
+        font-weight: bold;
+        color: #c00000;
+    }
+
+    .badge-baixo {
+        display: inline-block;
+        background-color: #dc3545;
+        color: white;
+        font-size: 10px;
+        padding: 4px 7px;
+        border-radius: 5px;
+        margin-left: 5px;
+    }
+</style>
