@@ -27,7 +27,8 @@ namespace OnixSystem_MVC.Migrations
 
                     b.Property<string>("CPF")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasMaxLength(11)
+                        .HasColumnType("varchar(11)")
                         .HasColumnName("CPF");
 
                     b.Property<DateTime>("DataAtualizacao")
@@ -38,7 +39,8 @@ namespace OnixSystem_MVC.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasMaxLength(254)
+                        .HasColumnType("varchar(254)")
                         .HasColumnName("EMAIL");
 
                     b.Property<string>("Endereco")
@@ -54,9 +56,14 @@ namespace OnixSystem_MVC.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("NOME");
 
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Telefone")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasMaxLength(11)
+                        .HasColumnType("varchar(11)")
                         .HasColumnName("TELEFONE");
 
                     b.HasKey("Id");
@@ -252,7 +259,8 @@ namespace OnixSystem_MVC.Migrations
 
                     b.Property<string>("CodigoBarras")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
                         .HasColumnName("CODIGO_BARRAS");
 
                     b.Property<DateTime>("DataAtualizacao")
@@ -262,7 +270,8 @@ namespace OnixSystem_MVC.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Detalhes")
-                        .HasColumnType("longtext")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
                         .HasColumnName("DETALHES");
 
                     b.Property<bool>("IsAtivo")
@@ -270,7 +279,8 @@ namespace OnixSystem_MVC.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("NOME");
 
                     b.Property<decimal>("Preco")
@@ -279,7 +289,8 @@ namespace OnixSystem_MVC.Migrations
 
                     b.Property<string>("Tamanho")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
                         .HasColumnName("TAMANHO");
 
                     b.HasKey("Id");

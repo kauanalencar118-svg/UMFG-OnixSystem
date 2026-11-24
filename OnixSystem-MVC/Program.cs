@@ -6,6 +6,7 @@ using OnixSystem_MVC.Data.Repositorios.Fornecedores;
 using OnixSystem_MVC.Data.Repositorios.Produtos;
 using OnixSystem_MVC.Data.Repositorios.Configuracoes;
 using OnixSystem_MVC.Data.Repositorios.Vendas;
+using QuestPDF.Infrastructure;
 
 namespace OnixSystem_MVC
 {
@@ -14,6 +15,7 @@ namespace OnixSystem_MVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            QuestPDF.Settings.License = LicenseType.Community;
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddSession(options =>

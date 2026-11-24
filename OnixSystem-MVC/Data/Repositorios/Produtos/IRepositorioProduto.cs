@@ -10,5 +10,7 @@ namespace OnixSystem_MVC.Data.Repositorios.Produtos
         Task<Produto?> PegarProdutoPorId(Guid Id);
         Task RemoverProduto(Produto produto);
 
+        Task<bool> ExisteProdutoComMesmoNomeETamanho(string nome, string tamanho);
+        Task<bool> ExisteCodigoBarras(string codigoBarras);
     }
 }

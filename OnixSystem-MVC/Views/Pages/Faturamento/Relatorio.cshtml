@@ -1,0 +1,265 @@
+﻿
+@model OnixSystem_MVC.Models.ViewModels.RelatorioFaturamentoViewModel
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Relatório de Faturamento";
+    var cultura = new CultureInfo("pt-BR");
+}
+
+<div class="container-fluid p-4" style="height: 100vh; overflow-y: auto; overflow-x: hidden; position: relative;">
+
+    <!-- CABEÇALHO -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Faturamento</h2>
+            <p class="text-muted mb-0">Visão financeira e acompanhamento da receita da loja.</p>
+        </div>
+
+        <a asp-controller="Relatorio"
+           asp-action="Index"
+           class="btn"
+           style="background-color: #495057; color: white; border: none;">
+            <i class="fa-solid fa-arrow-left me-1"></i> Voltar
+        </a>
+    </div>
+
+    <!-- FILTRO -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+
+            <div class="mb-3">
+                <h5 class="fw-bold mb-1">
+                    <i class="fa-solid fa-calendar-days me-2"></i>Período de análise
+                </h5>
+                <small class="text-muted">Selecione o período desejado para consultar o faturamento.</small>
+            </div>
+
+            <form asp-controller="Faturamento"
+                  asp-action="Relatorio"
+                  method="get">
+
+                <div class="row g-3 align-items-end">
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Data inicial</label>
+                        <input type="date"
+                               name="dataInicial"
+                               value="@Model.DataInicial?.ToString("yyyy-MM-dd")"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Data final</label>
+                        <input type="date"
+                               name="dataFinal"
+                               value="@Model.DataFinal?.ToString("yyyy-MM-dd")"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-4 d-flex flex-wrap gap-2">
+
+                        <!-- CONSULTAR -->
+                        <button type="submit"
+                                class="btn"
+                                style="background-color: #0d6efd; color: white; border: none;">
+                            <i class="fa-solid fa-magnifying-glass me-1"></i> Consultar
+                        </button>
+
+                        <!-- LIMPAR -->
+                        <a asp-controller="Faturamento"
+                           asp-action="Relatorio"
+                           class="btn"
+                           style="background-color: #6c757d; color: white; border: none;">
+                            <i class="fa-solid fa-rotate-left me-1"></i> Limpar
+                        </a>
+
+                        <!-- PDF -->
+                        <a asp-controller="Faturamento"
+                           asp-action="BaixarPdf"
+                           asp-route-dataInicial="@Model.DataInicial?.ToString("yyyy-MM-dd")"
+                           asp-route-dataFinal="@Model.DataFinal?.ToString("yyyy-MM-dd")"
+                           class="btn"
+                           style="background-color: #dc3545; color: white; border: none;">
+                            <i class="fa-solid fa-file-pdf me-1"></i> PDF
+                        </a>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- RESUMO FINANCEIRO -->
+    <div class="row g-3 mb-4">
+
+        <!-- FATURAMENTO -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0"
+                 style="border-left: 5px solid #198754 !important;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted fw-semibold">Faturamento Líquido</span>
+                        <i class="fa-solid fa-money-bill-wave fs-4 text-success"></i>
+                    </div>
+
+                    <h3 class="fw-bold text-success mb-1">
+                        @Model.TotalFaturado.ToString("C", cultura)
+                    </h3>
+
+                    <small class="text-muted">Total após os descontos</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- VENDAS -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0"
+                 style="border-left: 5px solid #0d6efd !important;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted fw-semibold">Vendas Realizadas</span>
+                        <i class="fa-solid fa-receipt fs-4 text-primary"></i>
+                    </div>
+
+                    <h3 class="fw-bold mb-1">
+                        @Model.TotalVendas
+                    </h3>
+
+                    <small class="text-muted">Quantidade de vendas no período</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- DESCONTOS -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0"
+                 style="border-left: 5px solid #dc3545 !important;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted fw-semibold">Descontos Aplicados</span>
+                        <i class="fa-solid fa-tag fs-4 text-danger"></i>
+                    </div>
+
+                    <h3 class="fw-bold text-danger mb-1">
+                        @Model.TotalDescontos.ToString("C", cultura)
+                    </h3>
+
+                    <small class="text-muted">Descontos concedidos nas vendas</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DETALHAMENTO FINANCEIRO -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                <div>
+                    <h5 class="fw-bold mb-1">
+                        <i class="fa-solid fa-chart-column me-2"></i>Movimentação Financeira
+                    </h5>
+                    <small class="text-muted">Detalhamento dos valores das vendas.</small>
+                </div>
+
+                <span class="badge bg-dark fs-6">
+                    @Model.Vendas.Count vendas
+                </span>
+
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead style="background-color: #212529; color: white;">
+                        <tr>
+                            <th class="p-3">Data</th>
+                            <th class="p-3">Subtotal</th>
+                            <th class="p-3">Desconto</th>
+                            <th class="p-3">Valor Líquido</th>
+                            <th class="p-3">Pagamento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Vendas.Any())
+                        {
+                            foreach (var venda in Model.Vendas.OrderByDescending(v => v.DataVenda))
+                            {
+                                <tr>
+                                    <td class="p-3">
+                                        <i class="fa-regular fa-calendar me-1 text-muted"></i>
+                                        @venda.DataVenda.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td class="p-3">
+                                        @venda.Subtotal.ToString("C", cultura)
+                                    </td>
+
+                                    <td class="p-3 text-danger">
+                                        - @venda.Desconto.ToString("C", cultura)
+                                    </td>
+
+                                    <td class="p-3 fw-bold text-success">
+                                        @venda.ValorTotal.ToString("C", cultura)
+                                    </td>
+
+                                    <td class="p-3">
+                                        <span class="badge bg-secondary">
+                                            @venda.FormaPagamento
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="fa-solid fa-folder-open fs-2 mb-3 d-block"></i>
+                                    Nenhuma venda encontrada neste período.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                    <!-- TOTALIZADOR -->
+                    @if (Model.Vendas.Any())
+                    {
+                        <tfoot style="background-color: #f8f9fa;">
+                            <tr>
+                                <td class="p-3 fw-bold">TOTAL</td>
+
+                                <td class="p-3 fw-bold">
+                                    @Model.Vendas.Sum(v => v.Subtotal).ToString("C", cultura)
+                                </td>
+
+                                <td class="p-3 fw-bold text-danger">
+                                    - @Model.TotalDescontos.ToString("C", cultura)
+                                </td>
+
+                                <td class="p-3 fw-bold text-success">
+                                    @Model.TotalFaturado.ToString("C", cultura)
+                                </td>
+
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    }
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>

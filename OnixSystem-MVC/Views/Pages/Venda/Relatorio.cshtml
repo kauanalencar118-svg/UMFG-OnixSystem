@@ -1,0 +1,253 @@
+﻿
+@model OnixSystem_MVC.Models.ViewModels.RelatorioVendasViewModel
+
+@{
+    ViewData["Title"] = "Relatório de Vendas";
+}
+
+<div class="container-fluid p-4" style="height: 100vh; overflow-y: auto; overflow-x: hidden; position: relative;">
+
+    <!-- CABEÇALHO -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold">Relatório de Vendas</h2>
+            <p class="text-muted mb-0">
+                Visualize o desempenho das vendas por período.
+            </p>
+        </div>
+
+        <a asp-controller="Relatorio"
+           asp-action="Index"
+           class="btn btn-secondary">
+            <i class="fa-solid fa-arrow-left"></i>
+           Voltar
+        </a>
+    </div>
+
+    <!-- FILTRO POR DATA -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <form asp-controller="Venda"
+                  asp-action="Relatorio"
+                  method="get">
+
+                <div class="row align-items-end">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">
+                            Data inicial
+                        </label>
+
+                        <input type="date"
+                               name="dataInicial"
+                               class="form-control"
+                               value="@Model.DataInicial?.ToString("yyyy-MM-dd")" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">
+                            Data final
+                        </label>
+
+                        <input type="date"
+                               name="dataFinal"
+                               class="form-control"
+                               value="@Model.DataFinal?.ToString("yyyy-MM-dd")" />
+                    </div>
+
+                    <div class="col-md-4 mb-3 d-flex flex-wrap gap-2">
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            <i class="fa-solid fa-filter"></i>
+                            Filtrar
+                        </button>
+
+                        <a asp-controller="Venda"
+                           asp-action="Relatorio"
+                           class="btn btn-secondary">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Limpar
+                        </a>
+
+                        <a asp-controller="Venda"
+                           asp-action="BaixarPdf"
+                           asp-route-dataInicial="@Model.DataInicial?.ToString("yyyy-MM-dd")"
+                           asp-route-dataFinal="@Model.DataFinal?.ToString("yyyy-MM-dd")"
+                           class="btn btn-danger">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            PDF
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- INDICADORES -->
+    <div class="row mb-4">
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+
+                    <div class="text-muted mb-2">
+                        Total de vendas
+                    </div>
+
+                    <h3 class="fw-bold">
+                        @Model.TotalVendas
+                    </h3>
+
+                    <small class="text-muted">
+                        Vendas no período
+                    </small>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+
+                    <div class="text-muted mb-2">
+                        Total faturado
+                    </div>
+
+                    <h3 class="fw-bold text-success">
+                        @Model.TotalFaturado.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                    </h3>
+
+                    <small class="text-muted">
+                        Valor líquido das vendas
+                    </small>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+
+                    <div class="text-muted mb-2">
+                        Total de descontos
+                    </div>
+
+                    <h3 class="fw-bold text-danger">
+                        @Model.TotalDescontos.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                    </h3>
+
+                    <small class="text-muted">
+                        Descontos concedidos
+                    </small>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TABELA DE VENDAS -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold">
+                Vendas realizadas
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            @if (Model.Vendas.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th>Data</th>
+                                <th>Produtos</th>
+                                <th>Pagamento</th>
+                                <th>Subtotal</th>
+                                <th>Desconto</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var venda in Model.Vendas.OrderByDescending(v => v.DataVenda))
+                            {
+                                <tr>
+
+                                    <td>
+                                        @venda.DataVenda.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td>
+                                        @foreach (var item in venda.Itens)
+                                        {
+                                            <div class="mb-1">
+                                                <strong>
+                                                    @item.Produto?.Nome
+                                                </strong>
+
+                                                <span class="text-muted">
+                                                    x@item.Quantidade
+                                                </span>
+                                            </div>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @venda.FormaPagamento
+                                    </td>
+
+                                    <td>
+                                        @venda.Subtotal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                                    </td>
+
+                                    <td class="text-danger">
+                                        @venda.Desconto.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                                    </td>
+
+                                    <td class="fw-bold text-success">
+                                        @venda.ValorTotal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+
+                    <h5 class="text-muted">
+                        Nenhuma venda encontrada.
+                    </h5>
+
+                    <p class="text-muted">
+                        Tente selecionar outro período.
+                    </p>
+
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

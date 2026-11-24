@@ -7,6 +7,7 @@ using OnixSystem_MVC.Data.Repositorios.Configuracoes;
 using System.Text.Json;
 using OnixSystem_MVC.Models.ViewModels;
 using OnixSystem_MVC.Models.Entidades;
+using OnixSystem_MVC.Services.Relatorios;
 
 namespace OnixSystem_MVC.Controllers.Vendas
 {
@@ -355,6 +356,7 @@ namespace OnixSystem_MVC.Controllers.Vendas
 
             return RedirectToAction("Historico");
         }
+
         // CONSULTAR DETALHES DA VENDA
         public async Task<IActionResult> Consultar(Guid id)
         {
@@ -367,6 +369,72 @@ namespace OnixSystem_MVC.Controllers.Vendas
             }
 
             return View("~/Views/Pages/Venda/Consultar.cshtml", venda);
+        }
+
+        // RELATÓRIO DE VENDAS
+        public async Task<IActionResult> Relatorio(DateTime? dataInicial, DateTime? dataFinal)
+        {
+            var vendas = await _repositoryVenda.ListarVendas();
+
+            if (dataInicial.HasValue)
+            {
+                vendas = vendas
+                    .Where(v => v.DataVenda >= dataInicial.Value.Date)
+                    .ToList();
+            }
+
+            if (dataFinal.HasValue)
+            {
+                vendas = vendas
+                    .Where(v => v.DataVenda < dataFinal.Value.Date.AddDays(1))
+                    .ToList();
+            }
+
+            var viewModel = new RelatorioVendasViewModel
+            {
+                Vendas = vendas.ToList(),
+                DataInicial = dataInicial,
+                DataFinal = dataFinal,
+                TotalVendas = vendas.Count(),
+                TotalFaturado = vendas.Sum(v => v.ValorTotal),
+                TotalDescontos = vendas.Sum(v => v.Desconto)
+            };
+
+            return View("/Views/Pages/Venda/Relatorio.cshtml", viewModel);
+        }
+
+        // PDF DO RELATÓRIO DE VENDAS
+        public async Task<IActionResult> BaixarPdf(DateTime? dataInicial, DateTime? dataFinal)
+        {
+            var vendas = await _repositoryVenda.ListarVendas();
+
+            if (dataInicial.HasValue)
+            {
+                vendas = vendas
+                    .Where(v => v.DataVenda >= dataInicial.Value.Date)
+                    .ToList();
+            }
+
+            if (dataFinal.HasValue)
+            {
+                vendas = vendas
+                    .Where(v => v.DataVenda < dataFinal.Value.Date.AddDays(1))
+                    .ToList();
+            }
+
+            var viewModel = new RelatorioVendasViewModel
+            {
+                Vendas = vendas.ToList(),
+                DataInicial = dataInicial,
+                DataFinal = dataFinal,
+                TotalVendas = vendas.Count(),
+                TotalFaturado = vendas.Sum(v => v.ValorTotal),
+                TotalDescontos = vendas.Sum(v => v.Desconto)
+            };
+
+            var pdf = new PdfRelatorioVendas().Gerar(viewModel);
+
+            return File(pdf, "application/pdf", "RelatorioVendas.pdf");
         }
     }
 }

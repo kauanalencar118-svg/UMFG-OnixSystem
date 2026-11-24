@@ -1,0 +1,168 @@
+﻿
+@model OnixSystem_MVC.Models.ViewModels.RelatorioEstoqueViewModel
+
+@{
+    ViewData["Title"] = "Relatório de Estoque";
+}
+
+<div class="container-fluid mt-4">
+
+    <!-- CABEÇALHO -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2>Relatório de Estoque</h2>
+            <p class="text-muted">Visualização geral do estoque da loja</p>
+        </div>
+
+        <a asp-controller="Relatorio"
+           asp-action="Index"
+           class="btn btn-secondary">
+            <i class="fa-solid fa-arrow-left"></i>
+            Voltar
+        </a>
+    </div>
+
+    <!-- INDICADORES -->
+    <div class="row mb-4">
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Produtos no relatório</h6>
+                    <h3>@Model.TotalProdutos</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Total de unidades</h6>
+                    <h3>@Model.TotalUnidades</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TABELA E FILTROS -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <div class="d-flex flex-wrap gap-2 mb-3">
+
+                <a asp-controller="Estoque"
+                   asp-action="Relatorio"
+                   class="btn btn-primary">
+                    Relatório Completo
+                </a>
+
+                <a asp-controller="Estoque"
+                   asp-action="Relatorio"
+                   asp-route-estoqueBaixo="true"
+                   class="btn btn-warning">
+                    Estoque Baixo
+                </a>
+
+                <a asp-controller="Estoque"
+                   asp-action="BaixarPdf"
+                   asp-route-estoqueBaixo="@Model.EstoqueBaixo"
+                   class="btn btn-danger">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    Baixar PDF
+                </a>
+
+            </div>
+
+            @if (Model.EstoqueBaixo)
+            {
+                <div class="alert alert-warning">
+                    Exibindo somente produtos com estoque baixo.
+                </div>
+            }
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Produto</th>
+                            <th>Tamanho</th>
+                            <th>Detalhes</th>
+                            <th>Preço</th>
+                            <th>Quantidade</th>
+                            <th>Estoque Mínimo</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Estoques.Any())
+                        {
+                            foreach (var estoque in Model.Estoques)
+                            {
+                                <tr>
+                                    <td>
+                                        @(estoque.Produto?.Nome ?? "Produto não encontrado")
+                                    </td>
+
+                                    <td>
+                                        @(estoque.Produto?.Tamanho ?? "-")
+                                    </td>
+
+                                    <td>
+                                        @(estoque.Produto?.Detalhes ?? "-")
+                                    </td>
+
+                                    <td>
+                                        @(estoque.Produto != null
+                                            ? estoque.Produto.Preco.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                                            : "-")
+                                    </td>
+
+                                    <td>
+                                        @estoque.Quantidade
+                                    </td>
+
+                                    <td>
+                                        @estoque.EstoqueMinimo
+                                    </td>
+
+                                    <td>
+                                        @if (estoque.Quantidade <= estoque.EstoqueMinimo)
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                Estoque Baixo
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">
+                                                Normal
+                                            </span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    Nenhum produto encontrado.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

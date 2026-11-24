@@ -1,4 +1,5 @@
-﻿using OnixSystem_MVC.Models.Abstracts;
+﻿
+using OnixSystem_MVC.Models.Abstracts;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnixSystem_MVC.Models.Entidades
@@ -29,8 +30,8 @@ namespace OnixSystem_MVC.Models.Entidades
 
 
         [Required(ErrorMessage = "O código de barras é obrigatório.")]
-        [StringLength(50,
-            ErrorMessage = "O código de barras não pode ultrapassar 50 caracteres.")]
+        [RegularExpression(@"^[0-9]{13}$",
+    ErrorMessage = "O código de barras deve conter exatamente 13 números.")]
         public string CodigoBarras { get; set; } = string.Empty;
     }
 }

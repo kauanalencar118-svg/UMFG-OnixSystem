@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using OnixSystem_MVC.Data.Repositorios.Estoques;
 using OnixSystem_MVC.Data.Repositorios.Produtos;
 using OnixSystem_MVC.Models.Entidades;
+using OnixSystem_MVC.Models.ViewModels;
+using OnixSystem_MVC.Services.Relatorios;
 
 namespace OnixSystem_MVC.Controllers.Estoques
 {
@@ -39,7 +42,6 @@ namespace OnixSystem_MVC.Controllers.Estoques
         public async Task<IActionResult> Criar()
         {
             var produtos = await _repositorioProduto.ListarProdutos();
-
             var estoques = await _repositorioEstoque.ListarEstoques();
 
             var produtosComEstoque = estoques
@@ -154,6 +156,60 @@ namespace OnixSystem_MVC.Controllers.Estoques
             await _repositorioEstoque.ReativarEstoque(estoque);
 
             return RedirectToAction("Inativos");
+        }
+
+        // RELATÓRIO DE ESTOQUE
+        public async Task<IActionResult> Relatorio(bool estoqueBaixo = false)
+        {
+            var estoques = await _repositorioEstoque.ListarEstoques();
+
+            if (estoqueBaixo)
+            {
+                estoques = estoques
+                    .Where(e => e.Quantidade <= e.EstoqueMinimo)
+                    .ToList();
+            }
+
+            var viewModel = new RelatorioEstoqueViewModel
+            {
+                Estoques = estoques.ToList(),
+                EstoqueBaixo = estoqueBaixo,
+                TotalProdutos = estoques.Count(),
+                TotalUnidades = estoques.Sum(e => e.Quantidade)
+            };
+
+            return View(viewModel);
+        }
+
+        // GERAR PDF DO RELATÓRIO DE ESTOQUE
+        public async Task<IActionResult> BaixarPdf(bool estoqueBaixo = false)
+        {
+            var estoques = await _repositorioEstoque.ListarEstoques();
+
+            if (estoqueBaixo)
+            {
+                estoques = estoques
+                    .Where(e => e.Quantidade <= e.EstoqueMinimo)
+                    .ToList();
+            }
+
+            var viewModel = new RelatorioEstoqueViewModel
+            {
+                Estoques = estoques.ToList(),
+                EstoqueBaixo = estoqueBaixo,
+                TotalProdutos = estoques.Count(),
+                TotalUnidades = estoques.Sum(e => e.Quantidade)
+            };
+
+            var gerador = new PdfRelatorioEstoque();
+
+            var pdf = gerador.Gerar(viewModel);
+
+            var nomeArquivo = estoqueBaixo
+                ? "Relatorio-Estoque-Baixo.pdf"
+                : "Relatorio-Estoque.pdf";
+
+            return File(pdf, "application/pdf", nomeArquivo);
         }
     }
 }
