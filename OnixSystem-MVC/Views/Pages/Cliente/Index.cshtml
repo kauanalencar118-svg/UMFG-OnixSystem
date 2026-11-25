@@ -4,53 +4,51 @@
     ViewData["Title"] = "Clientes";
 }
 
-<div class="container mt-4">
+<div class="container mt-4 clientes-container">
 
-    <div class="mb-3">
+    <div class="clientes-header-actions">
 
         <a asp-controller="Cliente"
            asp-action="Criar"
            class="btn btn-primary">
-            Novo Cliente
+            <i class="fas fa-plus"></i> Novo Cliente
         </a>
 
         <a asp-controller="Cliente"
            asp-action="Inativos"
            class="btn btn-warning">
-            Clientes Inativos
+            <i class="fas fa-user-slash"></i> Clientes Inativos
         </a>
 
     </div>
 
     <!-- Pesquisa de clientes -->
-    <form asp-controller="Cliente" asp-action="Index" method="get" class="mb-3">
-        <div class="input-group">
+    <form asp-controller="Cliente" asp-action="Index" method="get" class="clientes-pesquisa">
 
-            <input type="text"
-                   name="pesquisa"
-                   value="@ViewBag.Pesquisa"
-                   class="form-control"
-                   placeholder="Pesquisar por nome, CPF, telefone ou e-mail..." />
+        <input type="text"
+               name="pesquisa"
+               value="@ViewBag.Pesquisa"
+               class="form-control clientes-input-pesquisa"
+               placeholder="Pesquisar por nome, CPF, telefone ou e-mail..." />
 
-            <button type="submit" class="btn btn-primary">
-                Pesquisar
-            </button>
+        <button type="submit" class="btn btn-primary btn-pesquisa-cliente">
+            <i class="fas fa-search"></i> Pesquisar
+        </button>
 
-            <a asp-controller="Cliente"
-               asp-action="Index"
-               class="btn btn-secondary">
-                Limpar
-            </a>
+        <a asp-controller="Cliente"
+           asp-action="Index"
+           class="btn btn-secondary btn-limpar-cliente">
+            <i class="fas fa-times"></i> Limpar
+        </a>
 
-        </div>
     </form>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm clientes-card">
         <div class="card-body">
 
-            <div class="table-responsive">
+            <div class="clientes-table-container">
 
-                <table class="table table-hover table-striped align-middle">
+                <table class="table table-hover table-striped align-middle clientes-table">
 
                     <thead>
                         <tr>
@@ -59,7 +57,7 @@
                             <th>Telefone</th>
                             <th>E-mail</th>
                             <th>Endereço</th>
-                            <th class="text-center">Ações</th>
+                            <th class="text-center coluna-acoes">Ações</th>
                         </tr>
                     </thead>
 
@@ -78,19 +76,23 @@
 
                                     <td class="text-center">
 
-                                        <a asp-controller="Cliente"
-                                           asp-action="Atualizar"
-                                           asp-route-id="@cliente.Id"
-                                           class="btn btn-warning btn-sm">
-                                            Editar
-                                        </a>
+                                        <div class="clientes-acoes">
 
-                                        <a asp-controller="Cliente"
-                                           asp-action="DeleteSoft"
-                                           asp-route-id="@cliente.Id"
-                                           class="btn btn-danger btn-sm">
-                                            Excluir
-                                        </a>
+                                            <a asp-controller="Cliente"
+                                               asp-action="Atualizar"
+                                               asp-route-id="@cliente.Id"
+                                               class="btn-cliente btn-editar-cliente">
+                                                <i class="fas fa-pen"></i> Editar
+                                            </a>
+
+                                            <a asp-controller="Cliente"
+                                               asp-action="DeleteSoft"
+                                               asp-route-id="@cliente.Id"
+                                               class="btn-cliente btn-excluir-cliente">
+                                                <i class="fas fa-trash"></i> Excluir
+                                            </a>
+
+                                        </div>
 
                                     </td>
                                 </tr>
@@ -115,3 +117,209 @@
     </div>
 
 </div>
+
+<style>
+
+    /* Container */
+
+    .clientes-container {
+        max-width: 100%;
+    }
+
+    /* Botões superiores */
+
+    .clientes-header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .clientes-header-actions .btn {
+        border-radius: 7px;
+        padding: 9px 15px;
+        font-weight: 500;
+    }
+
+    /* Pesquisa */
+
+    .clientes-pesquisa {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 15px;
+        width: 750px;
+        max-width: 100%;
+    }
+
+    .clientes-input-pesquisa {
+        flex: 1 1 auto;
+        width: 0;
+        min-width: 0;
+        height: 38px;
+        border-radius: 7px !important;
+    }
+
+    /* Botões da pesquisa */
+
+    .clientes-container .clientes-pesquisa .btn-pesquisa-cliente,
+    .clientes-container .clientes-pesquisa .btn-limpar-cliente {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+
+        flex-grow: 0 !important;
+        flex-shrink: 0 !important;
+
+        width: fit-content !important;
+        min-width: 0 !important;
+        max-width: 130px !important;
+
+        padding: 0 12px !important;
+
+        height: 36px !important;
+        min-height: 36px !important;
+
+        font-size: 13px !important;
+        line-height: 1 !important;
+
+        margin: 0 !important;
+        border-radius: 7px !important;
+        white-space: nowrap;
+
+        text-decoration: none !important;
+    }
+
+    /* Card */
+
+    .clientes-card {
+        border-radius: 10px;
+        border: 1px solid #dee2e6;
+        overflow: hidden;
+    }
+
+    .clientes-card .card-body {
+        padding: 15px;
+    }
+
+    /* Rolagem interna */
+
+    .clientes-table-container {
+        max-height: calc(100vh - 270px);
+        min-height: 300px;
+        overflow-y: auto;
+        overflow-x: auto;
+        border-radius: 8px;
+    }
+
+    .clientes-table {
+        width: 100%;
+        min-width: 1000px;
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    /* Cabeçalho fixo */
+
+    .clientes-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: white;
+        box-shadow: 0 1px 0 #dee2e6;
+        font-weight: 500;
+        white-space: nowrap;
+        padding: 14px 10px;
+    }
+
+    /* Linhas */
+
+    .clientes-table tbody td {
+        padding: 12px 10px;
+        vertical-align: middle;
+    }
+
+    .clientes-table tbody tr {
+        transition: background-color 0.2s ease;
+    }
+
+    /* Coluna de ações */
+
+    .coluna-acoes {
+        min-width: 170px;
+    }
+
+    .clientes-acoes {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .btn-cliente {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none !important;
+        border: none;
+        transition: all 0.2s ease;
+    }
+
+    /* Editar */
+
+    .btn-editar-cliente {
+        background-color: #ffc107;
+        color: #212529 !important;
+    }
+
+    .btn-editar-cliente:hover {
+        background-color: #e0a800;
+        color: #212529 !important;
+        transform: translateY(-1px);
+    }
+
+    /* Excluir */
+
+    .btn-excluir-cliente {
+        background-color: #dc3545;
+        color: white !important;
+    }
+
+    .btn-excluir-cliente:hover {
+        background-color: #bb2d3b;
+        color: white !important;
+        transform: translateY(-1px);
+    }
+
+    /* Barra de rolagem */
+
+    .clientes-table-container::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .clientes-table-container::-webkit-scrollbar-thumb {
+        background-color: #bfc5cc;
+        border-radius: 10px;
+    }
+
+    .clientes-table-container::-webkit-scrollbar-thumb:hover {
+        background-color: #929aa3;
+    }
+
+    .clientes-table-container::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    /* Responsividade */
+
+    @@media (max-width: 768

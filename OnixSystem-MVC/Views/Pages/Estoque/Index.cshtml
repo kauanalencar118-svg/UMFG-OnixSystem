@@ -1,32 +1,33 @@
-﻿@model IEnumerable<OnixSystem_MVC.Models.Entidades.Estoque>
+﻿ @model IEnumerable<OnixSystem_MVC.Models.Entidades.Estoque>
 
 @{
     ViewData["Title"] = "Estoque";
 }
 
-<div class="container mt-4">
+<div class="container mt-4 estoque-container">
 
     <h2 class="mb-4">Controle de Estoque</h2>
 
-    <div class="mb-3">
+    <div class="estoque-header-actions">
         <a asp-controller="Estoque"
            asp-action="Criar"
            class="btn btn-primary">
-            Novo Estoque
+            <i class="fas fa-plus"></i> Novo Estoque
         </a>
 
         <a asp-controller="Estoque"
            asp-action="Inativos"
            class="btn btn-warning">
-            Estoques Inativos
+            <i class="fas fa-box-archive"></i> Estoques Inativos
         </a>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm estoque-card">
         <div class="card-body">
 
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
+            <div class="estoque-table-container">
+
+                <table class="table table-hover align-middle estoque-table">
 
                     <thead>
                         <tr>
@@ -35,7 +36,7 @@
                             <th>Tamanho</th>
                             <th>Quantidade</th>
                             <th>Estoque Mínimo</th>
-                            <th>Ações</th>
+                            <th class="coluna-acoes">Ações</th>
                         </tr>
                     </thead>
 
@@ -45,7 +46,8 @@
                             bool estoqueBaixo = estoque.Quantidade <= estoque.EstoqueMinimo;
 
                             <tr class="@(estoqueBaixo ? "estoque-baixo" : "")">
-                                <td>
+
+                                <td class="codigo-estoque">
                                     @if (!string.IsNullOrWhiteSpace(estoque.Produto?.CodigoBarras))
                                     {
                                         @estoque.Produto.CodigoBarras
@@ -67,10 +69,10 @@
                                 <td>
                                     @if (estoqueBaixo)
                                     {
-                                        <span class="quantidade-baixa">
-                                            @estoque.Quantidade
+                                        <div class="quantidade-baixa">
+                                            <span>@estoque.Quantidade</span>
                                             <span class="badge-baixo">ESTOQUE BAIXO</span>
-                                        </span>
+                                        </div>
                                     }
                                     else
                                     {
@@ -78,28 +80,36 @@
                                     }
                                 </td>
 
-                                <td>@estoque.EstoqueMinimo</td>
+                                <td>
+                                    @estoque.EstoqueMinimo
+                                </td>
 
                                 <td>
-                                    <a asp-controller="Estoque"
-                                       asp-action="Atualizar"
-                                       asp-route-id="@estoque.Id"
-                                       class="btn btn-warning btn-sm">
-                                        Editar
-                                    </a>
+                                    <div class="estoque-acoes">
 
-                                    <a asp-controller="Estoque"
-                                       asp-action="DeleteSoft"
-                                       asp-route-id="@estoque.Id"
-                                       class="btn btn-danger btn-sm">
-                                        Desativar
-                                    </a>
+                                        <a asp-controller="Estoque"
+                                           asp-action="Atualizar"
+                                           asp-route-id="@estoque.Id"
+                                           class="btn-estoque btn-editar">
+                                            <i class="fas fa-pen"></i> Editar
+                                        </a>
+
+                                        <a asp-controller="Estoque"
+                                           asp-action="DeleteSoft"
+                                           asp-route-id="@estoque.Id"
+                                           class="btn-estoque btn-desativar">
+                                            <i class="fas fa-ban"></i> Desativar
+                                        </a>
+
+                                    </div>
                                 </td>
+
                             </tr>
                         }
                     </tbody>
 
                 </table>
+
             </div>
 
         </div>
@@ -108,12 +118,150 @@
 </div>
 
 <style>
+
+    /* Container da tela */
+
+    .estoque-container {
+        max-width: 100%;
+    }
+
+    .estoque-header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .estoque-header-actions .btn {
+        border-radius: 7px;
+        padding: 9px 15px;
+        font-weight: 500;
+    }
+
+    /* Card */
+
+    .estoque-card {
+        border-radius: 10px;
+        border: 1px solid #dee2e6;
+        overflow: hidden;
+    }
+
+    .estoque-card .card-body {
+        padding: 15px;
+    }
+
+    /* Rolagem da tabela */
+
+    .estoque-table-container {
+        max-height: calc(100vh - 230px);
+        min-height: 300px;
+        overflow-y: auto;
+        overflow-x: auto;
+        border-radius: 8px;
+    }
+
+    .estoque-table {
+        width: 100%;
+        min-width: 900px;
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    /* Cabeçalho fixo */
+
+    .estoque-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: white;
+        box-shadow: 0 1px 0 #dee2e6;
+        font-weight: 500;
+        white-space: nowrap;
+        padding: 14px 10px;
+    }
+
+    /* Linhas */
+
+    .estoque-table tbody td {
+        padding: 12px 10px;
+        vertical-align: middle;
+    }
+
+    .estoque-table tbody tr {
+        transition: background-color 0.2s ease;
+    }
+
+    .codigo-estoque {
+        overflow-wrap: anywhere;
+        min-width: 150px;
+    }
+
+    /* Coluna de ações */
+
+    .coluna-acoes {
+        min-width: 175px;
+    }
+
+    .estoque-acoes {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .btn-estoque {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none !important;
+        border: none;
+        transition: all 0.2s ease;
+    }
+
+    /* Botão editar */
+
+    .btn-editar {
+        background-color: #ffc107;
+        color: #212529 !important;
+    }
+
+    .btn-editar:hover {
+        background-color: #e0a800;
+        color: #212529 !important;
+        transform: translateY(-1px);
+    }
+
+    /* Botão desativar */
+
+    .btn-desativar {
+        background-color: #dc3545;
+        color: white !important;
+    }
+
+    .btn-desativar:hover {
+        background-color: #bb2d3b;
+        color: white !important;
+        transform: translateY(-1px);
+    }
+
+    /* Estoque baixo */
+
     .estoque-baixo td {
         background-color: #ffe5e5 !important;
         color: #a30000;
     }
 
     .quantidade-baixa {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
         font-weight: bold;
         color: #c00000;
     }
@@ -123,8 +271,53 @@
         background-color: #dc3545;
         color: white;
         font-size: 10px;
-        padding: 4px 7px;
+        font-weight: 500;
+        padding: 5px 8px;
         border-radius: 5px;
-        margin-left: 5px;
+        white-space: nowrap;
     }
+
+    /* Barra de rolagem */
+
+    .estoque-table-container::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .estoque-table-container::-webkit-scrollbar-thumb {
+        background-color: #bfc5cc;
+        border-radius: 10px;
+    }
+
+    .estoque-table-container::-webkit-scrollbar-thumb:hover {
+        background-color: #929aa3;
+    }
+
+    .estoque-table-container::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    /* Responsividade */
+
+    @@media (max-width: 768px) {
+
+        .estoque-table-container {
+            max-height: calc(100vh - 200px);
+        }
+
+        .estoque-acoes {
+            gap: 6px;
+        }
+
+        .btn-estoque {
+            padding: 7px 9px;
+            font-size: 12px;
+        }
+
+        .estoque-header-actions .btn {
+            font-size: 13px;
+        }
+    }
+
 </style>
