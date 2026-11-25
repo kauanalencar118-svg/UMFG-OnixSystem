@@ -6,8 +6,8 @@ namespace OnixSystem_MVC.Controllers.Produtos
 {
     public sealed class ProdutoController : Controller
     {
+        private readonly IRepositorioProduto _repositoryProduto;
 
-        private IRepositorioProduto _repositoryProduto;
         public ProdutoController(IRepositorioProduto repositoryProduto)
         {
             _repositoryProduto = repositoryProduto;
@@ -28,13 +28,27 @@ namespace OnixSystem_MVC.Controllers.Produtos
 
             return View(produtos);
         }
+
         public IActionResult Criar()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> CriarPost(Produto produto)
         {
+            var produtosExistentes = await _repositoryProduto.ListarProdutos();
+
+            bool codigoDuplicado = produtosExistentes.Any(p =>
+                p.CodigoBarras == produto.CodigoBarras);
+
+            if (codigoDuplicado)
+            {
+                ModelState.AddModelError(
+                    nameof(produto.CodigoBarras),
+                    "Já existe um produto cadastrado com este código de barras.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View("Criar", produto);
@@ -48,10 +62,31 @@ namespace OnixSystem_MVC.Controllers.Produtos
         public async Task<IActionResult> Atualizar(Guid id)
         {
             var produto = await _repositoryProduto.PegarProdutoPorId(id);
+
+            if (produto == null)
+            {
+                return NotFound();
+            }
+
             return View(produto);
         }
+
+        [HttpPost]
         public async Task<IActionResult> AtualizarPost(Produto produto)
         {
+            var produtosExistentes = await _repositoryProduto.ListarProdutos();
+
+            bool codigoDuplicado = produtosExistentes.Any(p =>
+                p.CodigoBarras == produto.CodigoBarras &&
+                p.Id != produto.Id);
+
+            if (codigoDuplicado)
+            {
+                ModelState.AddModelError(
+                    nameof(produto.CodigoBarras),
+                    "Já existe um produto cadastrado com este código de barras.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View("Atualizar", produto);
@@ -65,6 +100,12 @@ namespace OnixSystem_MVC.Controllers.Produtos
         public async Task<IActionResult> DeleteSoft(Guid id)
         {
             var produto = await _repositoryProduto.PegarProdutoPorId(id);
+
+            if (produto == null)
+            {
+                return NotFound();
+            }
+
             return View(produto);
         }
 

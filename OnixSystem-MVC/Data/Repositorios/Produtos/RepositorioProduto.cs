@@ -16,9 +16,23 @@ namespace OnixSystem_MVC.Data.Repositorios.Produtos
 
         public async Task<Produto> AtualizarProduto(Produto produto)
         {
-            _context.Produtos.Update(produto);
+            var produtoBanco = await _context.Produtos
+                .FirstOrDefaultAsync(p => p.Id == produto.Id);
+
+            if (produtoBanco == null)
+            {
+                throw new Exception("Produto não encontrado.");
+            }
+
+            produtoBanco.Nome = produto.Nome;
+            produtoBanco.Tamanho = produto.Tamanho;
+            produtoBanco.Detalhes = produto.Detalhes;
+            produtoBanco.Preco = produto.Preco;
+            produtoBanco.CodigoBarras = produto.CodigoBarras;
+
             await _context.SaveChangesAsync();
-            return produto;
+
+            return produtoBanco;
         }
 
 

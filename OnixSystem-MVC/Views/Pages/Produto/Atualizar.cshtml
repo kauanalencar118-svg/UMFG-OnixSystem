@@ -45,11 +45,17 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Detalhes" class="form-label">Detalhes (opcional)</label>
+                    <label asp-for="Detalhes" class="form-label">
+                        Detalhes (opcional)
+                    </label>
+
                     <textarea asp-for="Detalhes"
                               class="form-control"
                               rows="3"
                               placeholder="Digite detalhes adicionais do produto (opcional)"></textarea>
+
+                    <span asp-validation-for="Detalhes"
+                          class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
@@ -58,8 +64,11 @@
                     </label>
 
                     <input asp-for="Preco"
+                           type="text"
+                           inputmode="decimal"
                            class="form-control"
-                           placeholder="Ex.: 19,90" />
+                           placeholder="Ex.: 19,90"
+                           data-val-number="Informe um preço válido. Utilize números e a vírgula para os centavos." />
 
                     <span asp-validation-for="Preco"
                           class="text-danger"></span>
@@ -99,4 +108,39 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function converterDecimal(valor) {
+            if (typeof valor === "string") {
+                valor = valor.replace(",", ".");
+            }
+
+            return parseFloat(valor);
+        }
+
+        // Aceita números com vírgula decimal
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) ||
+                /^-?\d+(?:[.,]\d{1,2})?$/.test(value);
+        };
+
+        // Validação de valor mínimo
+        $.validator.methods.min = function (value, element, param) {
+            return this.optional(element) ||
+                converterDecimal(value) >= converterDecimal(param);
+        };
+
+        // Validação de valor máximo
+        $.validator.methods.max = function (value, element, param) {
+            return this.optional(element) ||
+                converterDecimal(value) <= converterDecimal(param);
+        };
+
+        // Validação de intervalo
+        $.validator.methods.range = function (value, element, param) {
+            return this.optional(element) ||
+                (converterDecimal(value) >= converterDecimal(param[0]) &&
+                 converterDecimal(value) <= converterDecimal(param[1]));
+        };
+    </script>
 }
