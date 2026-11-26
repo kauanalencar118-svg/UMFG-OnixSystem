@@ -7,7 +7,26 @@
         ?? new List<ItemCarrinhoViewModel>();
 }
 
-<div class="container-fluid">
+<style>
+    .venda-produtos-scroll {
+        max-height: 450px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+        .venda-produtos-scroll thead th {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 2;
+        }
+
+    .venda-busca {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="container-fluid venda-container">
 
     <!-- CABEÇALHO -->
     <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
@@ -38,13 +57,33 @@
         <!-- PRODUTOS DISPONÍVEIS -->
         <div class="col-lg-7">
             <div class="card shadow-sm">
+
                 <div class="card-header">
                     <h5 class="mb-0">Produtos disponíveis</h5>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body venda-produtos-scroll">
+
+                    <!-- BARRA DE PESQUISA -->
+                    <div class="venda-busca">
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </span>
+
+                            <input type="text"
+                                   id="buscarProdutoVenda"
+                                   class="form-control"
+                                   placeholder="Buscar por nome ou tamanho..."
+                                   autocomplete="off" />
+
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
+
                             <thead>
                                 <tr>
                                     <th>Produto</th>
@@ -55,15 +94,21 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody id="tabelaProdutosVenda">
+
                                 @foreach (var estoque in Model.Where(e =>
                                     e.Quantidade > 0 &&
                                     e.Produto != null &&
                                     e.Produto.IsAtivo))
                                 {
-                                    <tr>
+                                    <tr class="produto-venda-linha"
+                                        data-nome="@estoque.Produto!.Nome"
+                                        data-tamanho="@estoque.Produto!.Tamanho">
+
                                         <td>@estoque.Produto!.Nome</td>
+
                                         <td>@estoque.Produto!.Tamanho</td>
+
                                         <td>@estoque.Produto!.Preco.ToString("C2")</td>
 
                                         <td>
@@ -85,11 +130,22 @@
                                                         class="btn btn-sm btn-primary">
                                                     Adicionar
                                                 </button>
+
                                             </form>
                                         </td>
+
                                     </tr>
                                 }
+
+                                <!-- MENSAGEM QUANDO NÃO ENCONTRAR -->
+                                <tr id="produtoVendaNaoEncontrado" style="display: none;">
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        Nenhum produto encontrado.
+                                    </td>
+                                </tr>
+
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -99,6 +155,7 @@
         <!-- CARRINHO -->
         <div class="col-lg-5">
             <div class="card shadow-sm">
+
                 <div class="card-header">
                     <h5 class="mb-0">Carrinho de vendas</h5>
                 </div>
@@ -137,6 +194,7 @@
                                                     class="btn btn-sm btn-outline-secondary">
                                                 −
                                             </button>
+
                                         </form>
 
                                         <span class="fw-bold">
@@ -159,6 +217,7 @@
                                                     class="btn btn-sm btn-outline-primary">
                                                 +
                                             </button>
+
                                         </form>
 
                                     </div>
@@ -185,6 +244,7 @@
 
                                     <!-- CONFIRMAÇÃO DE REMOÇÃO -->
                                     <div class="mt-2">
+
                                         <button type="button"
                                                 class="btn btn-sm btn-outline-danger"
                                                 data-bs-toggle="modal"
@@ -192,7 +252,9 @@
 
                                             <i class="fas fa-trash"></i>
                                             Excluir
+
                                         </button>
+
                                     </div>
 
                                 </div>
@@ -209,6 +271,7 @@
                                     <div class="modal-content">
 
                                         <div class="modal-header">
+
                                             <h5 class="modal-title">
                                                 <i class="fas fa-trash text-danger me-2"></i>
                                                 Remover produto?
@@ -218,6 +281,7 @@
                                                     class="btn-close"
                                                     data-bs-dismiss="modal">
                                             </button>
+
                                         </div>
 
                                         <div class="modal-body text-center">
@@ -257,8 +321,10 @@
 
                                                 <button type="submit"
                                                         class="btn btn-danger">
+
                                                     <i class="fas fa-trash me-1"></i>
                                                     Sim, remover
+
                                                 </button>
 
                                             </form>
@@ -272,22 +338,27 @@
 
                         <!-- TOTAL -->
                         <div class="d-flex justify-content-between mt-3">
+
                             <h5>Total:</h5>
 
                             <h5 class="text-success">
                                 @carrinho.Sum(i => i.Subtotal).ToString("C2")
                             </h5>
+
                         </div>
 
                         <!-- FINALIZAR -->
                         <div class="mt-4">
+
                             <a asp-controller="Venda"
                                asp-action="Pagamento"
                                class="btn btn-success w-100">
 
                                 <i class="fas fa-check-circle me-2"></i>
                                 Finalizar Venda
+
                             </a>
+
                         </div>
                     }
                     else
@@ -303,3 +374,52 @@
 
     </div>
 </div>
+
+<!-- SCRIPT DA PESQUISA -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const campoBusca = document.getElementById("buscarProdutoVenda");
+        const produtos = document.querySelectorAll(".produto-venda-linha");
+        const mensagemNaoEncontrado = document.getElementById("produtoVendaNaoEncontrado");
+
+        campoBusca.addEventListener("input", function () {
+
+            const pesquisa = campoBusca.value
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .trim();
+
+            let encontrados = 0;
+
+            produtos.forEach(function (produto) {
+
+                const nome = produto.dataset.nome
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
+
+                const tamanho = produto.dataset.tamanho
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
+
+                const corresponde =
+                    nome.includes(pesquisa) ||
+                    tamanho.includes(pesquisa);
+
+                produto.style.display = corresponde ? "" : "none";
+
+                if (corresponde) {
+                    encontrados++;
+                }
+            });
+
+            mensagemNaoEncontrado.style.display =
+                encontrados === 0 ? "" : "none";
+
+        });
+
+    });
+</script>
